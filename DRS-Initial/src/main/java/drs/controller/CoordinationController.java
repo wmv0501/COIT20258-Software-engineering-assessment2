@@ -7,7 +7,9 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 
+import javafx.collections.ListChangeListener;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Controller for the "Coordinate Response" tab.
@@ -27,7 +29,15 @@ public class CoordinationController {
     // --- Responder selection list ---
     @FXML private ListView<Responder>       responderListView;
 
-    // --- Notes ---
+    // --- Response activity checkboxes ---
+    @FXML private CheckBox chkWarningEvacuation;
+    @FXML private CheckBox chkSearchRescue;
+    @FXML private CheckBox chkImmediateAssistance;
+    @FXML private CheckBox chkAssessingDamage;
+    @FXML private CheckBox chkContinuingAssistance;
+    @FXML private CheckBox chkRestoration;
+
+    // --- Extra notes ---
     @FXML private TextArea                  notesArea;
 
     // --- Save button and feedback label ---
@@ -55,6 +65,10 @@ public class CoordinationController {
         // Allow multi-select in both lists (Ctrl/Cmd + click to select multiple)
         departmentListView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         responderListView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+
+        // When department selection changes, filter responders to only those departments
+        departmentListView.getSelectionModel().getSelectedItems().addListener(
+                (ListChangeListener<Department>) change -> updateResponderList());
 
         // Update the detail label when a disaster is selected
         disasterComboBox.getSelectionModel().selectedItemProperty().addListener(
@@ -103,7 +117,7 @@ public class CoordinationController {
 
         // Build and save the response
         DisasterResponse response = new DisasterResponse(
-                0, selected, chosenDepts, chosenResps, notesArea.getText().trim());
+                0, selected, chosenDepts, chosenResps, buildNotes());
         DisasterRepository.addResponse(response);
 
         // Mark assigned departments as deployed
@@ -122,7 +136,7 @@ public class CoordinationController {
         }
 
         showSuccess("Response #" + response.getId() + " saved for Disaster #" + selected.getId());
-        notesArea.clear();
+        clearActivities();
         loadData();
     }
 
@@ -142,11 +156,10 @@ public class CoordinationController {
             report.getType(), report.getSeverity(),
             report.getLocation(), report.getPriority()));
 
-        // Refresh available lists whenever disaster selection changes
+        // Refresh department list; responder list updates via the selection listener
         departmentListView.setItems(
-                FXCollections.observableArrayList(DisasterRepository.getAvailableDepartments()));
-        responderListView.setItems(
-                FXCollections.observableArrayList(DisasterRepository.getAvailableResponders()));
+                FXCollections.observableArrayList(DisasterRepository.getDepartmentsWithAvailableResponders()));
+        updateResponderList();
     }
 
     /** Loads all data from the repository into the UI controls. */
@@ -160,14 +173,70 @@ public class CoordinationController {
             disasterComboBox.getSelectionModel().selectFirst();
         }
 
-        // Populate department and responder lists with available options
+        // Populate department list; responder list is derived from department selection
         departmentListView.setItems(
-                FXCollections.observableArrayList(DisasterRepository.getAvailableDepartments()));
-        responderListView.setItems(
-                FXCollections.observableArrayList(DisasterRepository.getAvailableResponders()));
+                FXCollections.observableArrayList(DisasterRepository.getDepartmentsWithAvailableResponders()));
+        updateResponderList();
 
         // Refresh the responses summary table
         responsesData.setAll(DisasterRepository.getAllResponses());
+    }
+
+    /**
+     * Builds the notes string from selected activity checkboxes and the extra notes field.
+     * Checked activities are listed first, followed by any free-text notes.
+     *
+     * @return combined notes string saved to the DisasterResponse
+     */
+    private String buildNotes() {
+        StringBuilder sb = new StringBuilder();
+
+        if (chkWarningEvacuation.isSelected())    sb.append("- Warning / Evacuation\n");
+        if (chkSearchRescue.isSelected())         sb.append("- Search and Rescue\n");
+        if (chkImmediateAssistance.isSelected())  sb.append("- Providing Immediate Assistance\n");
+        if (chkAssessingDamage.isSelected())      sb.append("- Assessing Damage\n");
+        if (chkContinuingAssistance.isSelected()) sb.append("- Continuing Assistance\n");
+        if (chkRestoration.isSelected())          sb.append("- Restoration / Infrastructure\n");
+
+        String extra = notesArea.getText().trim();
+        if (!extra.isEmpty()) {
+            if (sb.length() > 0) sb.append("\n");
+            sb.append(extra);
+        }
+
+        return sb.toString().trim();
+    }
+
+    /** Clears all activity checkboxes and the extra notes field. */
+    private void clearActivities() {
+        chkWarningEvacuation.setSelected(false);
+        chkSearchRescue.setSelected(false);
+        chkImmediateAssistance.setSelected(false);
+        chkAssessingDamage.setSelected(false);
+        chkContinuingAssistance.setSelected(false);
+        chkRestoration.setSelected(false);
+        notesArea.clear();
+    }
+
+    /**
+     * Refreshes the responder list based on the currently selected departments.
+     * If no departments are selected, all available responders are shown.
+     * If one or more departments are selected, only responders belonging to
+     * those departments are shown.
+     */
+    private void updateResponderList() {
+        List<Department> selectedDepts = departmentListView.getSelectionModel().getSelectedItems();
+        List<Responder> availableResponders = DisasterRepository.getAvailableResponders();
+
+        List<Responder> filtered;
+        if (selectedDepts.isEmpty()) {
+            filtered = availableResponders;
+        } else {
+            filtered = availableResponders.stream()
+                    .filter(r -> selectedDepts.contains(r.getDepartment()))
+                    .collect(Collectors.toList());
+        }
+        responderListView.setItems(FXCollections.observableArrayList(filtered));
     }
 
     /** Displays a success message in green. */

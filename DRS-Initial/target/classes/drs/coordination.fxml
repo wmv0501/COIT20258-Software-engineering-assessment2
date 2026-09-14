@@ -33,33 +33,51 @@
             <Label text="Step 2 — Assign departments and responders (hold Ctrl/Cmd to select multiple):"
                    style="-fx-font-weight: bold; -fx-font-size: 13px;"/>
 
-            <HBox spacing="15.0" VBox.vgrow="SOMETIMES">
+            <HBox spacing="15.0" VBox.vgrow="ALWAYS" minHeight="160.0">
                 <!-- Left: Departments list -->
                 <VBox spacing="5.0" HBox.hgrow="ALWAYS">
                     <Label text="Available Departments:" style="-fx-font-weight: bold;"/>
-                    <ListView fx:id="departmentListView" prefHeight="180.0" VBox.vgrow="ALWAYS">
+                    <ListView fx:id="departmentListView" prefHeight="200.0" minHeight="130.0" VBox.vgrow="ALWAYS">
                         <placeholder>
                             <Label text="No departments available."/>
                         </placeholder>
                     </ListView>
                 </VBox>
 
-                <!-- Right: Responders list -->
+                <!-- Right: Responders list (filtered by selected departments) -->
                 <VBox spacing="5.0" HBox.hgrow="ALWAYS">
-                    <Label text="Available Responders:" style="-fx-font-weight: bold;"/>
-                    <ListView fx:id="responderListView" prefHeight="180.0" VBox.vgrow="ALWAYS">
+                    <Label text="Available Responders (select department first):" style="-fx-font-weight: bold;"/>
+                    <ListView fx:id="responderListView" prefHeight="200.0" minHeight="130.0" VBox.vgrow="ALWAYS">
                         <placeholder>
-                            <Label text="No responders available."/>
+                            <Label text="Select a department to see its responders."/>
                         </placeholder>
                     </ListView>
                 </VBox>
             </HBox>
 
-            <!-- Step 3: Notes -->
-            <Label text="Step 3 — Coordinator notes (optional):"
+            <!-- Step 3: Response activities and notes -->
+            <Label text="Step 3 — Select response activities and add notes:"
                    style="-fx-font-weight: bold; -fx-font-size: 13px;"/>
-            <TextArea fx:id="notesArea" prefHeight="70.0" wrapText="true"
-                      promptText="Enter any special instructions or notes for this response..."/>
+
+            <HBox spacing="20.0">
+                <!-- Activity checkboxes -->
+                <VBox spacing="5.0">
+                    <Label text="Response Activities:" style="-fx-font-weight: bold;"/>
+                    <CheckBox fx:id="chkWarningEvacuation"    text="Warning / Evacuation"/>
+                    <CheckBox fx:id="chkSearchRescue"         text="Search and Rescue"/>
+                    <CheckBox fx:id="chkImmediateAssistance"  text="Providing Immediate Assistance"/>
+                    <CheckBox fx:id="chkAssessingDamage"      text="Assessing Damage"/>
+                    <CheckBox fx:id="chkContinuingAssistance" text="Continuing Assistance"/>
+                    <CheckBox fx:id="chkRestoration"          text="Restoration / Infrastructure"/>
+                </VBox>
+
+                <!-- Extra notes -->
+                <VBox spacing="5.0" HBox.hgrow="ALWAYS">
+                    <Label text="Additional Notes (optional):" style="-fx-font-weight: bold;"/>
+                    <TextArea fx:id="notesArea" prefHeight="120.0" wrapText="true" VBox.vgrow="ALWAYS"
+                              promptText="Enter any special instructions or notes for this response..."/>
+                </VBox>
+            </HBox>
 
             <!-- Save button and feedback -->
             <HBox spacing="10.0" alignment="CENTER_LEFT">
@@ -77,7 +95,7 @@
             <Label text="Saved Response Records:"
                    style="-fx-font-size: 14px; -fx-font-weight: bold;"/>
 
-            <TableView fx:id="responsesTable" VBox.vgrow="ALWAYS">
+            <TableView fx:id="responsesTable" VBox.vgrow="SOMETIMES">
                 <columns>
                     <TableColumn fx:id="respIdCol"         text="Resp. ID"    prefWidth="80.0"/>
                     <TableColumn fx:id="respDisasterCol"   text="Disaster ID" prefWidth="100.0"/>

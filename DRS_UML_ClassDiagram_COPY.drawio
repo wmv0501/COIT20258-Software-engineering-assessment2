@@ -1,0 +1,359 @@
+<mxfile host="app.diagrams.net" version="21.0.0">
+  <diagram id="DRS-UML" name="DRS UML Class Diagram">
+    <mxGraphModel dx="1422" dy="762" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1654" pageHeight="2338" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+
+        <!-- ===== ENUMS ===== -->
+
+        <!-- DisasterType -->
+        <mxCell id="DT" value="&lt;&lt;enumeration&gt;&gt;&#xa;DisasterType" style="swimlane;startSize=40;fontStyle=1;align=center;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="740" y="20" width="220" height="205" as="geometry"/>
+        </mxCell>
+        <mxCell id="DT_v" value="HURRICANE&#xa;EARTHQUAKE&#xa;FIRE&#xa;FLOOD&#xa;OTHER" style="text;strokeColor=none;fillColor=#fff2cc;align=left;verticalAlign=top;spacingLeft=4;overflow=hidden;" vertex="1" parent="DT">
+          <mxGeometry y="40" width="220" height="75" as="geometry"/>
+        </mxCell>
+        <mxCell id="DT_s1" value="" style="line;strokeColor=#d6b656;fillColor=none;" vertex="1" parent="DT">
+          <mxGeometry y="115" width="220" height="8" as="geometry"/>
+        </mxCell>
+        <mxCell id="DT_a" value="- label : String&#xa;- priorityWeight : int" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;overflow=hidden;" vertex="1" parent="DT">
+          <mxGeometry y="123" width="220" height="30" as="geometry"/>
+        </mxCell>
+        <mxCell id="DT_s2" value="" style="line;strokeColor=#d6b656;fillColor=none;" vertex="1" parent="DT">
+          <mxGeometry y="153" width="220" height="8" as="geometry"/>
+        </mxCell>
+        <mxCell id="DT_m" value="+ getLabel() : String&#xa;+ getPriorityWeight() : int&#xa;+ toString() : String" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;overflow=hidden;" vertex="1" parent="DT">
+          <mxGeometry y="161" width="220" height="44" as="geometry"/>
+        </mxCell>
+
+        <!-- Severity -->
+        <mxCell id="SEV" value="&lt;&lt;enumeration&gt;&gt;&#xa;Severity" style="swimlane;startSize=40;fontStyle=1;align=center;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="740" y="245" width="220" height="200" as="geometry"/>
+        </mxCell>
+        <mxCell id="SEV_v" value="LOW (weight=10)&#xa;MEDIUM (weight=20)&#xa;HIGH (weight=30)&#xa;CRITICAL (weight=40)" style="text;strokeColor=none;fillColor=#fff2cc;align=left;verticalAlign=top;spacingLeft=4;overflow=hidden;" vertex="1" parent="SEV">
+          <mxGeometry y="40" width="220" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="SEV_s1" value="" style="line;strokeColor=#d6b656;fillColor=none;" vertex="1" parent="SEV">
+          <mxGeometry y="100" width="220" height="8" as="geometry"/>
+        </mxCell>
+        <mxCell id="SEV_a" value="- label : String&#xa;- priorityWeight : int" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;overflow=hidden;" vertex="1" parent="SEV">
+          <mxGeometry y="108" width="220" height="30" as="geometry"/>
+        </mxCell>
+        <mxCell id="SEV_s2" value="" style="line;strokeColor=#d6b656;fillColor=none;" vertex="1" parent="SEV">
+          <mxGeometry y="138" width="220" height="8" as="geometry"/>
+        </mxCell>
+        <mxCell id="SEV_m" value="+ getLabel() : String&#xa;+ getPriorityWeight() : int&#xa;+ toString() : String" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;overflow=hidden;" vertex="1" parent="SEV">
+          <mxGeometry y="146" width="220" height="54" as="geometry"/>
+        </mxCell>
+
+        <!-- DisasterStatus -->
+        <mxCell id="DS" value="&lt;&lt;enumeration&gt;&gt;&#xa;DisasterStatus" style="swimlane;startSize=40;fontStyle=1;align=center;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="740" y="465" width="220" height="165" as="geometry"/>
+        </mxCell>
+        <mxCell id="DS_v" value="REPORTED&#xa;ASSESSING&#xa;RESPONDING&#xa;RESOLVED" style="text;strokeColor=none;fillColor=#fff2cc;align=left;verticalAlign=top;spacingLeft=4;overflow=hidden;" vertex="1" parent="DS">
+          <mxGeometry y="40" width="220" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="DS_s1" value="" style="line;strokeColor=#d6b656;fillColor=none;" vertex="1" parent="DS">
+          <mxGeometry y="100" width="220" height="8" as="geometry"/>
+        </mxCell>
+        <mxCell id="DS_a" value="- label : String" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;overflow=hidden;" vertex="1" parent="DS">
+          <mxGeometry y="108" width="220" height="15" as="geometry"/>
+        </mxCell>
+        <mxCell id="DS_s2" value="" style="line;strokeColor=#d6b656;fillColor=none;" vertex="1" parent="DS">
+          <mxGeometry y="123" width="220" height="8" as="geometry"/>
+        </mxCell>
+        <mxCell id="DS_m" value="+ getLabel() : String&#xa;+ toString() : String" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;overflow=hidden;" vertex="1" parent="DS">
+          <mxGeometry y="131" width="220" height="34" as="geometry"/>
+        </mxCell>
+
+        <!-- ===== MODEL CLASSES ===== -->
+
+        <!-- Department -->
+        <mxCell id="DEPT" value="Department" style="swimlane;startSize=30;fontStyle=1;align=center;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="20" y="20" width="300" height="395" as="geometry"/>
+        </mxCell>
+        <mxCell id="DEPT_a" value="- id : int&#xa;- name : String&#xa;- type : String&#xa;- contactPerson : String&#xa;- phone : String&#xa;- available : boolean" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;overflow=hidden;" vertex="1" parent="DEPT">
+          <mxGeometry y="30" width="300" height="90" as="geometry"/>
+        </mxCell>
+        <mxCell id="DEPT_sep" value="" style="line;strokeColor=#6c8ebf;fillColor=none;" vertex="1" parent="DEPT">
+          <mxGeometry y="120" width="300" height="8" as="geometry"/>
+        </mxCell>
+        <mxCell id="DEPT_m" value="+ Department()&#xa;+ Department(id: int, name: String, type: String, contactPerson: String, phone: String)&#xa;+ getId() : int&#xa;+ getName() : String&#xa;+ getType() : String&#xa;+ getContactPerson() : String&#xa;+ getPhone() : String&#xa;+ isAvailable() : boolean&#xa;+ getAvailabilityStatus() : String&#xa;+ setId(id: int) : void&#xa;+ setName(name: String) : void&#xa;+ setType(type: String) : void&#xa;+ setContactPerson(contactPerson: String) : void&#xa;+ setPhone(phone: String) : void&#xa;+ setAvailable(available: boolean) : void&#xa;+ toString() : String" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;overflow=hidden;" vertex="1" parent="DEPT">
+          <mxGeometry y="128" width="300" height="267" as="geometry"/>
+        </mxCell>
+
+        <!-- DisasterReport -->
+        <mxCell id="DR" value="DisasterReport" style="swimlane;startSize=30;fontStyle=1;align=center;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="340" y="20" width="380" height="700" as="geometry"/>
+        </mxCell>
+        <mxCell id="DR_a" value="- TIMESTAMP_FORMAT : DateTimeFormatter  {static}&#xa;- WEIGHT_HURRICANE : int = 10  {static}&#xa;- WEIGHT_EARTHQUAKE : int = 9  {static}&#xa;- WEIGHT_FIRE : int = 8  {static}&#xa;- WEIGHT_FLOOD : int = 7  {static}&#xa;- WEIGHT_OTHER : int = 5  {static}&#xa;- id : int&#xa;- type : DisasterType&#xa;- severity : Severity&#xa;- location : String&#xa;- description : String&#xa;- reporterName : String&#xa;- reporterPhone : String&#xa;- status : DisasterStatus&#xa;- priority : int&#xa;- timestamp : String" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;overflow=hidden;" vertex="1" parent="DR">
+          <mxGeometry y="30" width="380" height="240" as="geometry"/>
+        </mxCell>
+        <mxCell id="DR_sep" value="" style="line;strokeColor=#6c8ebf;fillColor=none;" vertex="1" parent="DR">
+          <mxGeometry y="270" width="380" height="8" as="geometry"/>
+        </mxCell>
+        <mxCell id="DR_m" value="+ DisasterReport()&#xa;+ DisasterReport(id: int, type: DisasterType, severity: Severity, location: String, description: String, reporterName: String, reporterPhone: String)&#xa;+ computePriority(type: DisasterType, severity: Severity) : int  {static}&#xa;+ getId() : int&#xa;+ getType() : DisasterType&#xa;+ getSeverity() : Severity&#xa;+ getLocation() : String&#xa;+ getDescription() : String&#xa;+ getReporterName() : String&#xa;+ getReporterPhone() : String&#xa;+ getStatus() : DisasterStatus&#xa;+ getPriority() : int&#xa;+ getTimestamp() : String&#xa;+ setId(id: int) : void&#xa;+ setType(type: DisasterType) : void&#xa;+ setSeverity(severity: Severity) : void&#xa;+ setLocation(location: String) : void&#xa;+ setDescription(description: String) : void&#xa;+ setReporterName(reporterName: String) : void&#xa;+ setReporterPhone(reporterPhone: String) : void&#xa;+ setStatus(status: DisasterStatus) : void&#xa;+ setPriority(priority: int) : void&#xa;+ setTimestamp(timestamp: String) : void&#xa;+ toString() : String" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;overflow=hidden;" vertex="1" parent="DR">
+          <mxGeometry y="278" width="380" height="422" as="geometry"/>
+        </mxCell>
+
+        <!-- Responder -->
+        <mxCell id="RESP" value="Responder" style="swimlane;startSize=30;fontStyle=1;align=center;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="20" y="435" width="300" height="415" as="geometry"/>
+        </mxCell>
+        <mxCell id="RESP_a" value="- id : int&#xa;- name : String&#xa;- role : String&#xa;- phone : String&#xa;- department : Department&#xa;- available : boolean" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;overflow=hidden;" vertex="1" parent="RESP">
+          <mxGeometry y="30" width="300" height="90" as="geometry"/>
+        </mxCell>
+        <mxCell id="RESP_sep" value="" style="line;strokeColor=#6c8ebf;fillColor=none;" vertex="1" parent="RESP">
+          <mxGeometry y="120" width="300" height="8" as="geometry"/>
+        </mxCell>
+        <mxCell id="RESP_m" value="+ Responder()&#xa;+ Responder(id: int, name: String, role: String, phone: String, department: Department)&#xa;+ getId() : int&#xa;+ getName() : String&#xa;+ getRole() : String&#xa;+ getPhone() : String&#xa;+ getDepartment() : Department&#xa;+ getDepartmentName() : String&#xa;+ isAvailable() : boolean&#xa;+ getAvailabilityStatus() : String&#xa;+ setId(id: int) : void&#xa;+ setName(name: String) : void&#xa;+ setRole(role: String) : void&#xa;+ setPhone(phone: String) : void&#xa;+ setDepartment(department: Department) : void&#xa;+ setAvailable(available: boolean) : void&#xa;+ toString() : String" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;overflow=hidden;" vertex="1" parent="RESP">
+          <mxGeometry y="128" width="300" height="287" as="geometry"/>
+        </mxCell>
+
+        <!-- DisasterResponse -->
+        <mxCell id="DRESP" value="DisasterResponse" style="swimlane;startSize=30;fontStyle=1;align=center;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="340" y="740" width="380" height="530" as="geometry"/>
+        </mxCell>
+        <mxCell id="DRESP_a" value="- TIMESTAMP_FORMAT : DateTimeFormatter  {static}&#xa;- id : int&#xa;- disasterReport : DisasterReport&#xa;- assignedDepartments : List&lt;Department&gt;&#xa;- assignedResponders : List&lt;Responder&gt;&#xa;- notes : String&#xa;- createdAt : String" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;overflow=hidden;" vertex="1" parent="DRESP">
+          <mxGeometry y="30" width="380" height="105" as="geometry"/>
+        </mxCell>
+        <mxCell id="DRESP_sep" value="" style="line;strokeColor=#6c8ebf;fillColor=none;" vertex="1" parent="DRESP">
+          <mxGeometry y="135" width="380" height="8" as="geometry"/>
+        </mxCell>
+        <mxCell id="DRESP_m" value="+ DisasterResponse()&#xa;+ DisasterResponse(id: int, disasterReport: DisasterReport, assignedDepartments: List&lt;Department&gt;, assignedResponders: List&lt;Responder&gt;, notes: String)&#xa;+ getId() : int&#xa;+ getDisasterReport() : DisasterReport&#xa;+ getAssignedDepartments() : List&lt;Department&gt;&#xa;+ getAssignedResponders() : List&lt;Responder&gt;&#xa;+ getNotes() : String&#xa;+ getCreatedAt() : String&#xa;+ getDepartmentCount() : int&#xa;+ getResponderCount() : int&#xa;+ getDisasterId() : int&#xa;+ setId(id: int) : void&#xa;+ setDisasterReport(disasterReport: DisasterReport) : void&#xa;+ setAssignedDepartments(departments: List&lt;Department&gt;) : void&#xa;+ setAssignedResponders(responders: List&lt;Responder&gt;) : void&#xa;+ setNotes(notes: String) : void&#xa;+ setCreatedAt(createdAt: String) : void&#xa;+ addDepartment(department: Department) : void&#xa;+ addResponder(responder: Responder) : void&#xa;+ toString() : String" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;overflow=hidden;" vertex="1" parent="DRESP">
+          <mxGeometry y="143" width="380" height="387" as="geometry"/>
+        </mxCell>
+
+        <!-- DisasterRepository -->
+        <mxCell id="REPO" value="&lt;&lt;utility&gt;&gt;&#xa;DisasterRepository" style="swimlane;startSize=40;fontStyle=1;align=center;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="20" y="870" width="300" height="445" as="geometry"/>
+        </mxCell>
+        <mxCell id="REPO_a" value="- reports : List&lt;DisasterReport&gt;  {static}&#xa;- departments : List&lt;Department&gt;  {static}&#xa;- responders : List&lt;Responder&gt;  {static}&#xa;- responses : List&lt;DisasterResponse&gt;  {static}&#xa;- reportIdCounter : int  {static}&#xa;- responseIdCounter : int  {static}" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;overflow=hidden;" vertex="1" parent="REPO">
+          <mxGeometry y="40" width="300" height="90" as="geometry"/>
+        </mxCell>
+        <mxCell id="REPO_sep" value="" style="line;strokeColor=#b85450;fillColor=none;" vertex="1" parent="REPO">
+          <mxGeometry y="130" width="300" height="8" as="geometry"/>
+        </mxCell>
+        <mxCell id="REPO_m" value="+ addReport(report: DisasterReport) : void  {static}&#xa;+ getAllReports() : List&lt;DisasterReport&gt;  {static}&#xa;+ getReportsByStatus(status: DisasterStatus) : List&lt;DisasterReport&gt;  {static}&#xa;+ filterReports(type: DisasterType, status: DisasterStatus) : List&lt;DisasterReport&gt;  {static}&#xa;+ getActiveReports() : List&lt;DisasterReport&gt;  {static}&#xa;+ updateReportStatus(reportId: int, newStatus: DisasterStatus) : void  {static}&#xa;+ updateReportPriority(reportId: int, newPriority: int) : void  {static}&#xa;+ getAllDepartments() : List&lt;Department&gt;  {static}&#xa;+ getAvailableDepartments() : List&lt;Department&gt;  {static}&#xa;+ getDepartmentsWithAvailableResponders() : List&lt;Department&gt;  {static}&#xa;+ toggleDepartmentAvailability(departmentId: int) : void  {static}&#xa;+ getAllResponders() : List&lt;Responder&gt;  {static}&#xa;+ getAvailableResponders() : List&lt;Responder&gt;  {static}&#xa;+ toggleResponderAvailability(responderId: int) : void  {static}&#xa;+ addResponse(response: DisasterResponse) : void  {static}&#xa;+ getResponseForReport(reportId: int) : DisasterResponse  {static}&#xa;+ getAllResponses() : List&lt;DisasterResponse&gt;  {static}" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;overflow=hidden;" vertex="1" parent="REPO">
+          <mxGeometry y="138" width="300" height="307" as="geometry"/>
+        </mxCell>
+
+        <!-- ===== CONTROLLER CLASSES ===== -->
+
+        <!-- DRSApp -->
+        <mxCell id="APP" value="DRSApp" style="swimlane;startSize=30;fontStyle=1;align=center;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="20" y="1345" width="280" height="135" as="geometry"/>
+        </mxCell>
+        <mxCell id="APP_a" value="- WINDOW_TITLE : String  {static}&#xa;- WINDOW_WIDTH : double  {static}&#xa;- WINDOW_HEIGHT : double  {static}" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;overflow=hidden;" vertex="1" parent="APP">
+          <mxGeometry y="30" width="280" height="45" as="geometry"/>
+        </mxCell>
+        <mxCell id="APP_sep" value="" style="line;strokeColor=#82b366;fillColor=none;" vertex="1" parent="APP">
+          <mxGeometry y="75" width="280" height="8" as="geometry"/>
+        </mxCell>
+        <mxCell id="APP_m" value="+ start(primaryStage: Stage) : void&#xa;+ main(args: String[]) : void  {static}" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;overflow=hidden;" vertex="1" parent="APP">
+          <mxGeometry y="83" width="280" height="52" as="geometry"/>
+        </mxCell>
+
+        <!-- MainController -->
+        <mxCell id="MC" value="MainController" style="swimlane;startSize=30;fontStyle=1;align=center;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="320" y="1345" width="310" height="175" as="geometry"/>
+        </mxCell>
+        <mxCell id="MC_a" value="- mainTabPane : TabPane&#xa;- reportDisasterController : ReportDisasterController&#xa;- assessDisasterController : AssessDisasterController&#xa;- coordinationController : CoordinationController&#xa;- historyController : HistoryController&#xa;- resourceController : ResourceController" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;overflow=hidden;" vertex="1" parent="MC">
+          <mxGeometry y="30" width="310" height="90" as="geometry"/>
+        </mxCell>
+        <mxCell id="MC_sep" value="" style="line;strokeColor=#82b366;fillColor=none;" vertex="1" parent="MC">
+          <mxGeometry y="120" width="310" height="8" as="geometry"/>
+        </mxCell>
+        <mxCell id="MC_m" value="+ initialize() : void&#xa;- refreshTab(index: int) : void" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;overflow=hidden;" vertex="1" parent="MC">
+          <mxGeometry y="128" width="310" height="47" as="geometry"/>
+        </mxCell>
+
+        <!-- ReportDisasterController -->
+        <mxCell id="RDC" value="ReportDisasterController" style="swimlane;startSize=30;fontStyle=1;align=center;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="650" y="1345" width="310" height="295" as="geometry"/>
+        </mxCell>
+        <mxCell id="RDC_a" value="- typeComboBox : ComboBox&lt;DisasterType&gt;&#xa;- severityComboBox : ComboBox&lt;Severity&gt;&#xa;- locationField : TextField&#xa;- reporterNameField : TextField&#xa;- reporterPhoneField : TextField&#xa;- descriptionArea : TextArea&#xa;- statusLabel : Label&#xa;- recentReportsTable : TableView&lt;DisasterReport&gt;&#xa;- tableData : ObservableList&lt;DisasterReport&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;overflow=hidden;" vertex="1" parent="RDC">
+          <mxGeometry y="30" width="310" height="135" as="geometry"/>
+        </mxCell>
+        <mxCell id="RDC_sep" value="" style="line;strokeColor=#82b366;fillColor=none;" vertex="1" parent="RDC">
+          <mxGeometry y="165" width="310" height="8" as="geometry"/>
+        </mxCell>
+        <mxCell id="RDC_m" value="+ initialize() : void&#xa;+ loadRecentReports() : void&#xa;- handleSubmit() : void&#xa;- handleClear() : void&#xa;- validateForm() : boolean&#xa;- clearForm() : void&#xa;- showError(message: String) : void" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;overflow=hidden;" vertex="1" parent="RDC">
+          <mxGeometry y="173" width="310" height="122" as="geometry"/>
+        </mxCell>
+
+        <!-- AssessDisasterController -->
+        <mxCell id="ADC" value="AssessDisasterController" style="swimlane;startSize=30;fontStyle=1;align=center;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="980" y="1345" width="310" height="295" as="geometry"/>
+        </mxCell>
+        <mxCell id="ADC_a" value="- reportsTable : TableView&lt;DisasterReport&gt;&#xa;- selectedReport : DisasterReport&#xa;- priorityOverrideField : TextField&#xa;- statusLabel : Label&#xa;- tableData : ObservableList&lt;DisasterReport&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;overflow=hidden;" vertex="1" parent="ADC">
+          <mxGeometry y="30" width="310" height="75" as="geometry"/>
+        </mxCell>
+        <mxCell id="ADC_sep" value="" style="line;strokeColor=#82b366;fillColor=none;" vertex="1" parent="ADC">
+          <mxGeometry y="105" width="310" height="8" as="geometry"/>
+        </mxCell>
+        <mxCell id="ADC_m" value="+ initialize() : void&#xa;+ refresh() : void&#xa;- handleStartAssessment() : void&#xa;- handleDispatchResponse() : void&#xa;- handleMarkResolved() : void&#xa;- handleOverridePriority() : void&#xa;- onReportSelected(report: DisasterReport) : void&#xa;- loadReports() : void&#xa;- disableActionButtons() : void&#xa;- clearDetails() : void&#xa;- showSuccess(message: String) : void&#xa;- showError(message: String) : void" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;overflow=hidden;" vertex="1" parent="ADC">
+          <mxGeometry y="113" width="310" height="182" as="geometry"/>
+        </mxCell>
+
+        <!-- CoordinationController -->
+        <mxCell id="CC" value="CoordinationController" style="swimlane;startSize=30;fontStyle=1;align=center;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="20" y="1670" width="310" height="380" as="geometry"/>
+        </mxCell>
+        <mxCell id="CC_a" value="- disasterComboBox : ComboBox&lt;DisasterReport&gt;&#xa;- disasterDetailLabel : Label&#xa;- departmentListView : ListView&lt;Department&gt;&#xa;- responderListView : ListView&lt;Responder&gt;&#xa;- notesArea : TextArea&#xa;- chkWarningEvacuation : CheckBox&#xa;- chkSearchRescue : CheckBox&#xa;- chkImmediateAssistance : CheckBox&#xa;- chkAssessingDamage : CheckBox&#xa;- chkContinuingAssistance : CheckBox&#xa;- chkRestoration : CheckBox&#xa;- responsesData : ObservableList&lt;DisasterResponse&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;overflow=hidden;" vertex="1" parent="CC">
+          <mxGeometry y="30" width="310" height="195" as="geometry"/>
+        </mxCell>
+        <mxCell id="CC_sep" value="" style="line;strokeColor=#82b366;fillColor=none;" vertex="1" parent="CC">
+          <mxGeometry y="225" width="310" height="8" as="geometry"/>
+        </mxCell>
+        <mxCell id="CC_m" value="+ initialize() : void&#xa;+ refresh() : void&#xa;- handleSaveResponse() : void&#xa;- onDisasterSelected(report: DisasterReport) : void&#xa;- updateResponderList() : void&#xa;- buildNotes() : String&#xa;- clearActivities() : void&#xa;- loadData() : void&#xa;- showSuccess(message: String) : void&#xa;- showError(message: String) : void" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;overflow=hidden;" vertex="1" parent="CC">
+          <mxGeometry y="233" width="310" height="147" as="geometry"/>
+        </mxCell>
+
+        <!-- HistoryController -->
+        <mxCell id="HC" value="HistoryController" style="swimlane;startSize=30;fontStyle=1;align=center;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="350" y="1670" width="310" height="360" as="geometry"/>
+        </mxCell>
+        <mxCell id="HC_a" value="- typeFilterComboBox : ComboBox&lt;String&gt;&#xa;- statusFilterComboBox : ComboBox&lt;String&gt;&#xa;- countLabel : Label&#xa;- historyTable : TableView&lt;DisasterReport&gt;&#xa;- detailPlaceholder : Label&#xa;- detailGrid : GridPane&#xa;- detailDepartments : Label&#xa;- detailResponders : Label&#xa;- detailRespNotes : Label&#xa;- descriptionLabel : Label&#xa;- tableData : ObservableList&lt;DisasterReport&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;overflow=hidden;" vertex="1" parent="HC">
+          <mxGeometry y="30" width="310" height="165" as="geometry"/>
+        </mxCell>
+        <mxCell id="HC_sep" value="" style="line;strokeColor=#82b366;fillColor=none;" vertex="1" parent="HC">
+          <mxGeometry y="195" width="310" height="8" as="geometry"/>
+        </mxCell>
+        <mxCell id="HC_m" value="+ initialize() : void&#xa;+ refresh() : void&#xa;- handleApplyFilter() : void&#xa;- handleClearFilters() : void&#xa;- showDetail(report: DisasterReport) : void&#xa;- hideResponseFields() : void&#xa;- setVisible(node: Node, value: boolean) : void&#xa;- loadAllReports() : void&#xa;- updateCountLabel() : void&#xa;- resolveTypeFilter(label: String) : DisasterType&#xa;- resolveStatusFilter(label: String) : DisasterStatus" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;overflow=hidden;" vertex="1" parent="HC">
+          <mxGeometry y="203" width="310" height="157" as="geometry"/>
+        </mxCell>
+
+        <!-- ResourceController -->
+        <mxCell id="RC" value="ResourceController" style="swimlane;startSize=30;fontStyle=1;align=center;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="680" y="1670" width="310" height="270" as="geometry"/>
+        </mxCell>
+        <mxCell id="RC_a" value="- deptTable : TableView&lt;Department&gt;&#xa;- respTable : TableView&lt;Responder&gt;&#xa;- deptAvailableLabel : Label&#xa;- deptDeployedLabel : Label&#xa;- respAvailableLabel : Label&#xa;- respDeployedLabel : Label&#xa;- toggleDeptBtn : Button&#xa;- toggleRespBtn : Button&#xa;- deptData : ObservableList&lt;Department&gt;&#xa;- respData : ObservableList&lt;Responder&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;overflow=hidden;" vertex="1" parent="RC">
+          <mxGeometry y="30" width="310" height="150" as="geometry"/>
+        </mxCell>
+        <mxCell id="RC_sep" value="" style="line;strokeColor=#82b366;fillColor=none;" vertex="1" parent="RC">
+          <mxGeometry y="180" width="310" height="8" as="geometry"/>
+        </mxCell>
+        <mxCell id="RC_m" value="+ initialize() : void&#xa;+ refresh() : void&#xa;- handleToggleDepartment() : void&#xa;- handleToggleResponder() : void&#xa;- loadData() : void&#xa;- updateStats() : void" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;overflow=hidden;" vertex="1" parent="RC">
+          <mxGeometry y="188" width="310" height="82" as="geometry"/>
+        </mxCell>
+
+        <!-- ===== RELATIONSHIPS ===== -->
+
+        <!-- DisasterReport uses DisasterType -->
+        <mxCell id="e1" value="&lt;&lt;uses&gt;&gt;" style="edgeStyle=orthogonalEdgeStyle;dashed=1;endArrow=open;endFill=0;strokeColor=#d6b656;" edge="1" source="DR" target="DT" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- DisasterReport uses Severity -->
+        <mxCell id="e2" value="&lt;&lt;uses&gt;&gt;" style="edgeStyle=orthogonalEdgeStyle;dashed=1;endArrow=open;endFill=0;strokeColor=#d6b656;" edge="1" source="DR" target="SEV" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- DisasterReport uses DisasterStatus -->
+        <mxCell id="e3" value="&lt;&lt;uses&gt;&gt;" style="edgeStyle=orthogonalEdgeStyle;dashed=1;endArrow=open;endFill=0;strokeColor=#d6b656;" edge="1" source="DR" target="DS" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- DisasterResponse association 1..1 DisasterReport -->
+        <mxCell id="e4" value="" style="edgeStyle=orthogonalEdgeStyle;endArrow=open;endFill=0;strokeColor=#6c8ebf;" edge="1" source="DRESP" target="DR" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e4_s" value="1" style="resizable=0;html=1;align=left;verticalAlign=bottom;labelBackgroundColor=none;" connectable="0" vertex="1" parent="e4">
+          <mxGeometry x="-0.8" relative="1" as="geometry"><mxPoint as="offset"/></mxGeometry>
+        </mxCell>
+        <mxCell id="e4_t" value="1" style="resizable=0;html=1;align=right;verticalAlign=bottom;labelBackgroundColor=none;" connectable="0" vertex="1" parent="e4">
+          <mxGeometry x="0.8" relative="1" as="geometry"><mxPoint as="offset"/></mxGeometry>
+        </mxCell>
+
+        <!-- DisasterResponse aggregation 0..* Department -->
+        <mxCell id="e5" value="" style="edgeStyle=orthogonalEdgeStyle;startArrow=diamondThin;startFill=0;endArrow=open;endFill=0;strokeColor=#6c8ebf;" edge="1" source="DRESP" target="DEPT" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e5_s" value="0..*" style="resizable=0;html=1;align=left;verticalAlign=bottom;labelBackgroundColor=none;" connectable="0" vertex="1" parent="e5">
+          <mxGeometry x="-0.8" relative="1" as="geometry"><mxPoint as="offset"/></mxGeometry>
+        </mxCell>
+        <mxCell id="e5_t" value="1" style="resizable=0;html=1;align=right;verticalAlign=bottom;labelBackgroundColor=none;" connectable="0" vertex="1" parent="e5">
+          <mxGeometry x="0.8" relative="1" as="geometry"><mxPoint as="offset"/></mxGeometry>
+        </mxCell>
+
+        <!-- DisasterResponse aggregation 0..* Responder -->
+        <mxCell id="e6" value="" style="edgeStyle=orthogonalEdgeStyle;startArrow=diamondThin;startFill=0;endArrow=open;endFill=0;strokeColor=#6c8ebf;" edge="1" source="DRESP" target="RESP" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e6_s" value="0..*" style="resizable=0;html=1;align=left;verticalAlign=bottom;labelBackgroundColor=none;" connectable="0" vertex="1" parent="e6">
+          <mxGeometry x="-0.8" relative="1" as="geometry"><mxPoint as="offset"/></mxGeometry>
+        </mxCell>
+        <mxCell id="e6_t" value="1" style="resizable=0;html=1;align=right;verticalAlign=bottom;labelBackgroundColor=none;" connectable="0" vertex="1" parent="e6">
+          <mxGeometry x="0.8" relative="1" as="geometry"><mxPoint as="offset"/></mxGeometry>
+        </mxCell>
+
+        <!-- Responder association * to 1 Department -->
+        <mxCell id="e7" value="" style="edgeStyle=orthogonalEdgeStyle;endArrow=open;endFill=0;strokeColor=#6c8ebf;" edge="1" source="RESP" target="DEPT" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e7_s" value="*" style="resizable=0;html=1;align=left;verticalAlign=bottom;labelBackgroundColor=none;" connectable="0" vertex="1" parent="e7">
+          <mxGeometry x="-0.8" relative="1" as="geometry"><mxPoint as="offset"/></mxGeometry>
+        </mxCell>
+        <mxCell id="e7_t" value="1" style="resizable=0;html=1;align=right;verticalAlign=bottom;labelBackgroundColor=none;" connectable="0" vertex="1" parent="e7">
+          <mxGeometry x="0.8" relative="1" as="geometry"><mxPoint as="offset"/></mxGeometry>
+        </mxCell>
+
+        <!-- DisasterRepository manages all model classes -->
+        <mxCell id="e8" value="manages" style="edgeStyle=orthogonalEdgeStyle;dashed=1;endArrow=open;endFill=0;strokeColor=#b85450;" edge="1" source="REPO" target="DR" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e9" value="manages" style="edgeStyle=orthogonalEdgeStyle;dashed=1;endArrow=open;endFill=0;strokeColor=#b85450;" edge="1" source="REPO" target="DEPT" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e10" value="manages" style="edgeStyle=orthogonalEdgeStyle;dashed=1;endArrow=open;endFill=0;strokeColor=#b85450;" edge="1" source="REPO" target="RESP" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e11" value="manages" style="edgeStyle=orthogonalEdgeStyle;dashed=1;endArrow=open;endFill=0;strokeColor=#b85450;" edge="1" source="REPO" target="DRESP" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- Controllers use DisasterRepository -->
+        <mxCell id="e12" value="&lt;&lt;uses&gt;&gt;" style="edgeStyle=orthogonalEdgeStyle;dashed=1;endArrow=open;endFill=0;strokeColor=#82b366;" edge="1" source="RDC" target="REPO" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e13" value="&lt;&lt;uses&gt;&gt;" style="edgeStyle=orthogonalEdgeStyle;dashed=1;endArrow=open;endFill=0;strokeColor=#82b366;" edge="1" source="ADC" target="REPO" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e14" value="&lt;&lt;uses&gt;&gt;" style="edgeStyle=orthogonalEdgeStyle;dashed=1;endArrow=open;endFill=0;strokeColor=#82b366;" edge="1" source="CC" target="REPO" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e15" value="&lt;&lt;uses&gt;&gt;" style="edgeStyle=orthogonalEdgeStyle;dashed=1;endArrow=open;endFill=0;strokeColor=#82b366;" edge="1" source="HC" target="REPO" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e16" value="&lt;&lt;uses&gt;&gt;" style="edgeStyle=orthogonalEdgeStyle;dashed=1;endArrow=open;endFill=0;strokeColor=#82b366;" edge="1" source="RC" target="REPO" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- MainController coordinates tab controllers -->
+        <mxCell id="e17" value="" style="endArrow=open;endFill=0;strokeColor=#82b366;" edge="1" source="MC" target="RDC" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e18" value="" style="endArrow=open;endFill=0;strokeColor=#82b366;" edge="1" source="MC" target="ADC" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e19" value="" style="endArrow=open;endFill=0;strokeColor=#82b366;" edge="1" source="MC" target="CC" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e20" value="" style="endArrow=open;endFill=0;strokeColor=#82b366;" edge="1" source="MC" target="HC" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e21" value="" style="endArrow=open;endFill=0;strokeColor=#82b366;" edge="1" source="MC" target="RC" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- DRSApp launches MainController -->
+        <mxCell id="e22" value="launches" style="edgeStyle=orthogonalEdgeStyle;dashed=1;endArrow=open;endFill=0;strokeColor=#82b366;" edge="1" source="APP" target="MC" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

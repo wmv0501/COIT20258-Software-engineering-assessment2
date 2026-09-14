@@ -151,6 +151,20 @@ public class DisasterRepository {
     }
 
     /**
+     * Returns departments that have at least one available responder.
+     * Used by the coordination screen so a department remains selectable
+     * as long as any of its personnel can still be assigned.
+     *
+     * @return list of departments with at least one available responder
+     */
+    public static List<Department> getDepartmentsWithAvailableResponders() {
+        return departments.stream()
+                .filter(d -> responders.stream()
+                        .anyMatch(r -> r.getDepartment() == d && r.isAvailable()))
+                .collect(Collectors.toList());
+    }
+
+    /**
      * Toggles the availability of a department between Available and Deployed.
      *
      * @param departmentId the ID of the department to toggle

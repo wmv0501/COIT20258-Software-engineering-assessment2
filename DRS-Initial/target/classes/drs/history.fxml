@@ -37,31 +37,115 @@
                        style="-fx-font-style: italic; -fx-text-fill: #555555;"/>
             </HBox>
 
-            <!-- History table -->
-            <TableView fx:id="historyTable" VBox.vgrow="ALWAYS">
-                <columns>
-                    <TableColumn fx:id="idCol"        text="ID"        prefWidth="50.0"/>
-                    <TableColumn fx:id="typeCol"      text="Type"      prefWidth="110.0"/>
-                    <TableColumn fx:id="severityCol"  text="Severity"  prefWidth="90.0"/>
-                    <TableColumn fx:id="locationCol"  text="Location"  prefWidth="180.0"/>
-                    <TableColumn fx:id="priorityCol"  text="Priority"  prefWidth="70.0"/>
-                    <TableColumn fx:id="statusCol"    text="Status"    prefWidth="100.0"/>
-                    <TableColumn fx:id="reporterCol"  text="Reporter"  prefWidth="140.0"/>
-                    <TableColumn fx:id="timestampCol" text="Submitted" prefWidth="130.0"/>
-                </columns>
-                <placeholder>
-                    <Label text="No records found. Try adjusting the filters or submit a report first."/>
-                </placeholder>
-            </TableView>
+            <!-- Table + side detail panel -->
+            <HBox spacing="15.0" VBox.vgrow="ALWAYS">
 
-            <!-- Description panel (shown when a row is selected) -->
-            <VBox spacing="5.0">
-                <Label text="Description of selected report:"
-                       style="-fx-font-weight: bold;"/>
-                <Label fx:id="descriptionLabel" text=""
-                       wrapText="true"
-                       style="-fx-text-fill: #333333; -fx-padding: 5 0 0 0;"/>
-            </VBox>
+                <!-- History table -->
+                <TableView fx:id="historyTable" HBox.hgrow="ALWAYS" VBox.vgrow="ALWAYS">
+                    <columns>
+                        <TableColumn fx:id="idCol"        text="ID"        prefWidth="45.0"/>
+                        <TableColumn fx:id="typeCol"      text="Type"      prefWidth="100.0"/>
+                        <TableColumn fx:id="severityCol"  text="Severity"  prefWidth="80.0"/>
+                        <TableColumn fx:id="locationCol"  text="Location"  prefWidth="160.0"/>
+                        <TableColumn fx:id="priorityCol"  text="Priority"  prefWidth="65.0"/>
+                        <TableColumn fx:id="statusCol"    text="Status"    prefWidth="95.0"/>
+                        <TableColumn fx:id="reporterCol"  text="Reporter"  prefWidth="120.0"/>
+                        <TableColumn fx:id="timestampCol" text="Submitted" prefWidth="120.0"/>
+                    </columns>
+                    <placeholder>
+                        <Label text="No records found. Try adjusting the filters or submit a report first."/>
+                    </placeholder>
+                </TableView>
+
+                <!-- Detail side panel wrapped in ScrollPane -->
+                <ScrollPane prefWidth="300.0" minWidth="280.0" fitToWidth="true"
+                            style="-fx-border-color: #bdc3c7; -fx-background-color: #f4f6f7;"
+                            HBox.hgrow="NEVER">
+                <VBox fx:id="detailPanel" spacing="8.0"
+                      style="-fx-background-color: #f4f6f7; -fx-padding: 12;">
+
+                    <Label text="Report Details"
+                           style="-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #16a085;"/>
+                    <Separator/>
+
+                    <!-- Placeholder shown when nothing is selected -->
+                    <Label fx:id="detailPlaceholder" text="Click a row to view full details."
+                           wrapText="true"
+                           style="-fx-text-fill: #95a5a6; -fx-font-style: italic;"/>
+
+                    <!-- Report fields (hidden until a row is selected) -->
+                    <GridPane fx:id="detailGrid" hgap="8.0" vgap="6.0" visible="false" managed="false">
+                        <Label text="ID:"           GridPane.rowIndex="0"  GridPane.columnIndex="0" style="-fx-font-weight: bold;"/>
+                        <Label fx:id="detailId"     GridPane.rowIndex="0"  GridPane.columnIndex="1"/>
+
+                        <Label text="Type:"         GridPane.rowIndex="1"  GridPane.columnIndex="0" style="-fx-font-weight: bold;"/>
+                        <Label fx:id="detailType"   GridPane.rowIndex="1"  GridPane.columnIndex="1"/>
+
+                        <Label text="Severity:"     GridPane.rowIndex="2"  GridPane.columnIndex="0" style="-fx-font-weight: bold;"/>
+                        <Label fx:id="detailSeverity" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+
+                        <Label text="Status:"       GridPane.rowIndex="3"  GridPane.columnIndex="0" style="-fx-font-weight: bold;"/>
+                        <Label fx:id="detailStatus" GridPane.rowIndex="3"  GridPane.columnIndex="1"/>
+
+                        <Label text="Priority:"     GridPane.rowIndex="4"  GridPane.columnIndex="0" style="-fx-font-weight: bold;"/>
+                        <Label fx:id="detailPriority" GridPane.rowIndex="4" GridPane.columnIndex="1"/>
+
+                        <Label text="Location:"     GridPane.rowIndex="5"  GridPane.columnIndex="0" style="-fx-font-weight: bold;"/>
+                        <Label fx:id="detailLocation" GridPane.rowIndex="5" GridPane.columnIndex="1" wrapText="true"/>
+
+                        <Label text="Reporter:"     GridPane.rowIndex="6"  GridPane.columnIndex="0" style="-fx-font-weight: bold;"/>
+                        <Label fx:id="detailReporter" GridPane.rowIndex="6" GridPane.columnIndex="1" wrapText="true"/>
+
+                        <Label text="Phone:"        GridPane.rowIndex="7"  GridPane.columnIndex="0" style="-fx-font-weight: bold;"/>
+                        <Label fx:id="detailPhone"  GridPane.rowIndex="7"  GridPane.columnIndex="1"/>
+
+                        <Label text="Submitted:"    GridPane.rowIndex="8"  GridPane.columnIndex="0" style="-fx-font-weight: bold;"/>
+                        <Label fx:id="detailTimestamp" GridPane.rowIndex="8" GridPane.columnIndex="1"/>
+
+                        <columnConstraints>
+                            <ColumnConstraints minWidth="80.0"/>
+                            <ColumnConstraints hgrow="ALWAYS" minWidth="120.0"/>
+                        </columnConstraints>
+                    </GridPane>
+
+                    <Separator fx:id="detailDescSep" visible="false" managed="false"/>
+                    <Label fx:id="detailDescHeading" text="Description:" visible="false" managed="false"
+                           style="-fx-font-weight: bold;"/>
+                    <Label fx:id="descriptionLabel" text="" wrapText="true"
+                           style="-fx-text-fill: #333333;"/>
+
+                    <!-- Response section (shown only when a response record exists) -->
+                    <Separator fx:id="detailRespSep" visible="false" managed="false"/>
+                    <Label fx:id="detailRespHeading" text="Response Information:"
+                           visible="false" managed="false"
+                           style="-fx-font-size: 13px; -fx-font-weight: bold; -fx-text-fill: #16a085;"/>
+
+                    <Label fx:id="detailRespNoResponse" text="No response assigned yet."
+                           visible="false" managed="false"
+                           wrapText="true"
+                           style="-fx-text-fill: #95a5a6; -fx-font-style: italic;"/>
+
+                    <Label fx:id="detailDeptHeading" text="Departments:" visible="false" managed="false"
+                           style="-fx-font-weight: bold;"/>
+                    <Label fx:id="detailDepartments" text="" wrapText="true"
+                           visible="false" managed="false"
+                           style="-fx-text-fill: #333333;"/>
+
+                    <Label fx:id="detailRespPersonHeading" text="Responders:" visible="false" managed="false"
+                           style="-fx-font-weight: bold;"/>
+                    <Label fx:id="detailResponders" text="" wrapText="true"
+                           visible="false" managed="false"
+                           style="-fx-text-fill: #333333;"/>
+
+                    <Label fx:id="detailNotesHeading" text="Activities / Notes:" visible="false" managed="false"
+                           style="-fx-font-weight: bold;"/>
+                    <Label fx:id="detailRespNotes" text="" wrapText="true"
+                           visible="false" managed="false"
+                           style="-fx-text-fill: #333333;"/>
+
+                </VBox>
+                </ScrollPane>
+            </HBox>
 
             <padding><Insets top="5.0" bottom="5.0" left="0.0" right="0.0"/></padding>
         </VBox>

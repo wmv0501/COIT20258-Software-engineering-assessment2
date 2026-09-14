@@ -103,7 +103,7 @@ public class ResourceController {
         if (selected == null) return;
 
         DisasterRepository.toggleDepartmentAvailability(selected.getId());
-        String newStatus = selected.isAvailable() ? "Deployed" : "Available";
+        String newStatus = selected.isAvailable() ? "Available" : "Deployed";
         deptStatusLabel.setStyle("-fx-text-fill: green;");
         deptStatusLabel.setText(selected.getName() + " → " + newStatus);
         loadData();
@@ -119,7 +119,7 @@ public class ResourceController {
         if (selected == null) return;
 
         DisasterRepository.toggleResponderAvailability(selected.getId());
-        String newStatus = selected.isAvailable() ? "Deployed" : "Available";
+        String newStatus = selected.isAvailable() ? "Available" : "Deployed";
         respStatusLabel.setStyle("-fx-text-fill: green;");
         respStatusLabel.setText(selected.getName() + " → " + newStatus);
         loadData();

@@ -6,6 +6,8 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.GridPane;
+import java.util.stream.Collectors;
 
 /**
  * Controller for the "History Log" tab (Creative Feature 1).
@@ -30,8 +32,32 @@ public class HistoryController {
     @FXML private TableColumn<DisasterReport, String>   reporterCol;
     @FXML private TableColumn<DisasterReport, String>   timestampCol;
 
-    // Label shown in the description column (detail on selection)
-    @FXML private Label descriptionLabel;
+    // --- Detail side panel — report fields ---
+    @FXML private Label     detailPlaceholder;
+    @FXML private GridPane  detailGrid;
+    @FXML private Label     detailId;
+    @FXML private Label     detailType;
+    @FXML private Label     detailSeverity;
+    @FXML private Label     detailStatus;
+    @FXML private Label     detailPriority;
+    @FXML private Label     detailLocation;
+    @FXML private Label     detailReporter;
+    @FXML private Label     detailPhone;
+    @FXML private Label     detailTimestamp;
+    @FXML private Separator detailDescSep;
+    @FXML private Label     detailDescHeading;
+    @FXML private Label     descriptionLabel;
+
+    // --- Detail side panel — response fields ---
+    @FXML private Separator detailRespSep;
+    @FXML private Label     detailRespHeading;
+    @FXML private Label     detailRespNoResponse;
+    @FXML private Label     detailDeptHeading;
+    @FXML private Label     detailDepartments;
+    @FXML private Label     detailRespPersonHeading;
+    @FXML private Label     detailResponders;
+    @FXML private Label     detailNotesHeading;
+    @FXML private Label     detailRespNotes;
 
     /** "All" option label used in filter ComboBoxes. */
     private static final String ALL_OPTION = "All";
@@ -73,15 +99,9 @@ public class HistoryController {
 
         historyTable.setItems(tableData);
 
-        // Show the description of the selected report below the table
+        // Populate the side detail panel when a row is clicked
         historyTable.getSelectionModel().selectedItemProperty().addListener(
-                (obs, oldVal, newVal) -> {
-                    if (newVal != null) {
-                        descriptionLabel.setText(newVal.getDescription());
-                    } else {
-                        descriptionLabel.setText("");
-                    }
-                });
+                (obs, oldVal, newVal) -> showDetail(newVal));
 
         loadAllReports();
     }
@@ -131,6 +151,87 @@ public class HistoryController {
     /** Updates the record count label above the table. */
     private void updateCountLabel() {
         countLabel.setText("Showing " + tableData.size() + " record(s)");
+    }
+
+    /**
+     * Populates the side detail panel with all fields from the selected report,
+     * including response information (departments, responders, activities/notes)
+     * if a DisasterResponse has been saved for this report.
+     *
+     * @param report the selected report, or null if selection is cleared
+     */
+    private void showDetail(DisasterReport report) {
+        boolean hasReport = report != null;
+
+        setVisible(detailPlaceholder, !hasReport);
+        setVisible(detailGrid,        hasReport);
+        setVisible(detailDescSep,     hasReport);
+        setVisible(detailDescHeading, hasReport);
+        setVisible(detailRespSep,     hasReport);
+        setVisible(detailRespHeading, hasReport);
+
+        if (!hasReport) {
+            descriptionLabel.setText("");
+            hideResponseFields();
+            return;
+        }
+
+        // --- Report fields ---
+        detailId.setText(String.valueOf(report.getId()));
+        detailType.setText(report.getType().toString());
+        detailSeverity.setText(report.getSeverity().toString());
+        detailStatus.setText(report.getStatus().toString());
+        detailPriority.setText(String.valueOf(report.getPriority()));
+        detailLocation.setText(report.getLocation());
+        detailReporter.setText(report.getReporterName());
+        detailPhone.setText(report.getReporterPhone());
+        detailTimestamp.setText(report.getTimestamp());
+        descriptionLabel.setText(report.getDescription());
+
+        // --- Response fields ---
+        DisasterResponse response = DisasterRepository.getResponseForReport(report.getId());
+        if (response == null) {
+            setVisible(detailRespNoResponse, true);
+            hideResponseFields();
+            return;
+        }
+
+        setVisible(detailRespNoResponse, false);
+
+        String depts = response.getAssignedDepartments().stream()
+                .map(Department::getName)
+                .collect(Collectors.joining("\n"));
+        detailDepartments.setText(depts.isEmpty() ? "None" : depts);
+        setVisible(detailDeptHeading,   true);
+        setVisible(detailDepartments,   true);
+
+        String resps = response.getAssignedResponders().stream()
+                .map(r -> r.getName() + " (" + r.getRole() + ")")
+                .collect(Collectors.joining("\n"));
+        detailResponders.setText(resps.isEmpty() ? "None" : resps);
+        setVisible(detailRespPersonHeading, true);
+        setVisible(detailResponders,        true);
+
+        String notes = response.getNotes();
+        detailRespNotes.setText(notes.isEmpty() ? "None" : notes);
+        setVisible(detailNotesHeading, true);
+        setVisible(detailRespNotes,    true);
+    }
+
+    /** Hides all response-specific fields (departments, responders, notes). */
+    private void hideResponseFields() {
+        setVisible(detailDeptHeading,       false);
+        setVisible(detailDepartments,       false);
+        setVisible(detailRespPersonHeading, false);
+        setVisible(detailResponders,        false);
+        setVisible(detailNotesHeading,      false);
+        setVisible(detailRespNotes,         false);
+    }
+
+    /** Convenience method to set both visible and managed on a node simultaneously. */
+    private void setVisible(javafx.scene.Node node, boolean value) {
+        node.setVisible(value);
+        node.setManaged(value);
     }
 
     /**
