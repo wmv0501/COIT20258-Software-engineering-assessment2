@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+
+<TabPane fx:id="mainTabPane"
+         tabClosingPolicy="UNAVAILABLE"
+         prefHeight="720.0"
+         prefWidth="1000.0"
+         xmlns="http://javafx.com/javafx/22"
+         xmlns:fx="http://javafx.com/fxml/1"
+         fx:controller="drs.controller.MainController">
+
+    <tabs>
+        <!-- Tab 0: Report a new disaster -->
+        <Tab text="Report Disaster">
+            <content>
+                <fx:include fx:id="reportDisaster" source="reportDisaster.fxml"/>
+            </content>
+        </Tab>
+
+        <!-- Tab 1: Assess and prioritise reported disasters -->
+        <Tab text="Assess &amp; Prioritise">
+            <content>
+                <fx:include fx:id="assessDisaster" source="assessDisaster.fxml"/>
+            </content>
+        </Tab>
+
+        <!-- Tab 2: Coordinate departments and responders -->
+        <Tab text="Coordinate Response">
+            <content>
+                <fx:include fx:id="coordination" source="coordination.fxml"/>
+            </content>
+        </Tab>
+
+        <!-- Tab 3: History log (Creative Feature 1) -->
+        <Tab text="History Log">
+            <content>
+                <fx:include fx:id="history" source="history.fxml"/>
+            </content>
+        </Tab>
+
+        <!-- Tab 4: Resource availability tracker (Creative Feature 2) -->
+        <Tab text="Resources">
+            <content>
+                <fx:include fx:id="resource" source="resources.fxml"/>
+            </content>
+        </Tab>
+    </tabs>
+</TabPane>

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/22"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="drs.controller.HistoryController"
+            prefHeight="680.0" prefWidth="1000.0">
+    <children>
+        <VBox spacing="10.0"
+              AnchorPane.topAnchor="15.0" AnchorPane.bottomAnchor="10.0"
+              AnchorPane.leftAnchor="20.0"  AnchorPane.rightAnchor="20.0">
+
+            <!-- Screen heading -->
+            <Label text="Disaster History Log"
+                   style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #16a085;"/>
+            <Label text="Creative Feature 1 — Filterable log of all disaster reports"
+                   style="-fx-text-fill: #7f8c8d; -fx-font-style: italic;"/>
+
+            <!-- Filter bar -->
+            <HBox spacing="15.0" alignment="CENTER_LEFT">
+                <Label text="Filter by Type:" style="-fx-font-weight: bold;"/>
+                <ComboBox fx:id="typeFilterComboBox" prefWidth="150.0"/>
+
+                <Label text="Filter by Status:" style="-fx-font-weight: bold;"/>
+                <ComboBox fx:id="statusFilterComboBox" prefWidth="150.0"/>
+
+                <Button text="Apply Filter"  onAction="#handleApplyFilter"
+                        style="-fx-background-color: #16a085; -fx-text-fill: white;
+                               -fx-padding: 6 15 6 15;"/>
+                <Button text="Clear Filters" onAction="#handleClearFilters"
+                        style="-fx-padding: 6 15 6 15;"/>
+
+                <Label fx:id="countLabel" text="Showing 0 record(s)"
+                       style="-fx-font-style: italic; -fx-text-fill: #555555;"/>
+            </HBox>
+
+            <!-- History table -->
+            <TableView fx:id="historyTable" VBox.vgrow="ALWAYS">
+                <columns>
+                    <TableColumn fx:id="idCol"        text="ID"        prefWidth="50.0"/>
+                    <TableColumn fx:id="typeCol"      text="Type"      prefWidth="110.0"/>
+                    <TableColumn fx:id="severityCol"  text="Severity"  prefWidth="90.0"/>
+                    <TableColumn fx:id="locationCol"  text="Location"  prefWidth="180.0"/>
+                    <TableColumn fx:id="priorityCol"  text="Priority"  prefWidth="70.0"/>
+                    <TableColumn fx:id="statusCol"    text="Status"    prefWidth="100.0"/>
+                    <TableColumn fx:id="reporterCol"  text="Reporter"  prefWidth="140.0"/>
+                    <TableColumn fx:id="timestampCol" text="Submitted" prefWidth="130.0"/>
+                </columns>
+                <placeholder>
+                    <Label text="No records found. Try adjusting the filters or submit a report first."/>
+                </placeholder>
+            </TableView>
+
+            <!-- Description panel (shown when a row is selected) -->
+            <VBox spacing="5.0">
+                <Label text="Description of selected report:"
+                       style="-fx-font-weight: bold;"/>
+                <Label fx:id="descriptionLabel" text=""
+                       wrapText="true"
+                       style="-fx-text-fill: #333333; -fx-padding: 5 0 0 0;"/>
+            </VBox>
+
+            <padding><Insets top="5.0" bottom="5.0" left="0.0" right="0.0"/></padding>
+        </VBox>
+    </children>
+</AnchorPane>
