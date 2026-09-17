@@ -1,114 +1,107 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/22"
-            xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="drs.controller.CoordinationController"
-            prefHeight="680.0" prefWidth="1000.0">
+<AnchorPane prefHeight="928.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="drs.controller.CoordinationController">
     <children>
-        <VBox spacing="10.0"
-              AnchorPane.topAnchor="15.0" AnchorPane.bottomAnchor="10.0"
-              AnchorPane.leftAnchor="20.0"  AnchorPane.rightAnchor="20.0">
+        <VBox spacing="10.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="15.0">
 
             <!-- Screen heading -->
-            <Label text="Coordinate Disaster Response"
-                   style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #8e44ad;"/>
+            <Label style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #8e44ad;" text="Coordinate Disaster Response" />
 
             <!-- Step 1: Select Disaster -->
-            <Label text="Step 1 — Select an active disaster:"
-                   style="-fx-font-weight: bold; -fx-font-size: 13px;"/>
-            <HBox spacing="10.0" alignment="CENTER_LEFT">
-                <ComboBox fx:id="disasterComboBox" prefWidth="350.0"
-                          promptText="Select active disaster..."/>
+            <Label style="-fx-font-weight: bold; -fx-font-size: 13px;" text="Step 1 — Select an active disaster:" />
+            <HBox alignment="CENTER_LEFT" spacing="10.0">
+                <ComboBox fx:id="disasterComboBox" prefWidth="350.0" promptText="Select active disaster..." />
             </HBox>
-            <Label fx:id="disasterDetailLabel" text="No disaster selected."
-                   wrapText="true" style="-fx-text-fill: #555555; -fx-font-style: italic;"/>
+            <Label fx:id="disasterDetailLabel" style="-fx-text-fill: #555555; -fx-font-style: italic;" text="No disaster selected." wrapText="true" />
 
-            <Separator/>
+            <Separator />
 
             <!-- Step 2: Assign departments and responders -->
-            <Label text="Step 2 — Assign departments and responders (hold Ctrl/Cmd to select multiple):"
-                   style="-fx-font-weight: bold; -fx-font-size: 13px;"/>
+            <Label style="-fx-font-weight: bold; -fx-font-size: 13px;" text="Step 2 — Assign departments and responders (hold Ctrl/Cmd to select multiple):" />
 
-            <HBox spacing="15.0" VBox.vgrow="ALWAYS" minHeight="160.0">
+            <HBox minHeight="160.0" spacing="15.0" VBox.vgrow="ALWAYS">
                 <!-- Left: Departments list -->
                 <VBox spacing="5.0" HBox.hgrow="ALWAYS">
-                    <Label text="Available Departments:" style="-fx-font-weight: bold;"/>
-                    <ListView fx:id="departmentListView" prefHeight="200.0" minHeight="130.0" VBox.vgrow="ALWAYS">
+                    <Label style="-fx-font-weight: bold;" text="Available Departments:" />
+                    <ListView fx:id="departmentListView" minHeight="130.0" prefHeight="200.0" VBox.vgrow="ALWAYS">
                         <placeholder>
-                            <Label text="No departments available."/>
+                            <Label text="No departments available." />
                         </placeholder>
                     </ListView>
                 </VBox>
 
                 <!-- Right: Responders list (filtered by selected departments) -->
                 <VBox spacing="5.0" HBox.hgrow="ALWAYS">
-                    <Label text="Available Responders (select department first):" style="-fx-font-weight: bold;"/>
-                    <ListView fx:id="responderListView" prefHeight="200.0" minHeight="130.0" VBox.vgrow="ALWAYS">
+                    <Label style="-fx-font-weight: bold;" text="Available Responders (select department first):" />
+                    <ListView fx:id="responderListView" minHeight="130.0" prefHeight="200.0" VBox.vgrow="ALWAYS">
                         <placeholder>
-                            <Label text="Select a department to see its responders."/>
+                            <Label text="Select a department to see its responders." />
                         </placeholder>
                     </ListView>
                 </VBox>
             </HBox>
 
             <!-- Step 3: Response activities and notes -->
-            <Label text="Step 3 — Select response activities and add notes:"
-                   style="-fx-font-weight: bold; -fx-font-size: 13px;"/>
+            <Label style="-fx-font-weight: bold; -fx-font-size: 13px;" text="Step 3 — Select response activities and add notes:" />
 
             <HBox spacing="20.0">
                 <!-- Activity checkboxes -->
                 <VBox spacing="5.0">
-                    <Label text="Response Activities:" style="-fx-font-weight: bold;"/>
-                    <CheckBox fx:id="chkWarningEvacuation"    text="Warning / Evacuation"/>
-                    <CheckBox fx:id="chkSearchRescue"         text="Search and Rescue"/>
-                    <CheckBox fx:id="chkImmediateAssistance"  text="Providing Immediate Assistance"/>
-                    <CheckBox fx:id="chkAssessingDamage"      text="Assessing Damage"/>
-                    <CheckBox fx:id="chkContinuingAssistance" text="Continuing Assistance"/>
-                    <CheckBox fx:id="chkRestoration"          text="Restoration / Infrastructure"/>
+                    <Label style="-fx-font-weight: bold;" text="Response Activities:" />
+                    <CheckBox fx:id="chkWarningEvacuation" text="Warning / Evacuation" />
+                    <CheckBox fx:id="chkSearchRescue" text="Search and Rescue" />
+                    <CheckBox fx:id="chkImmediateAssistance" text="Providing Immediate Assistance" />
+                    <CheckBox fx:id="chkAssessingDamage" text="Assessing Damage" />
+                    <CheckBox fx:id="chkContinuingAssistance" text="Continuing Assistance" />
+                    <CheckBox fx:id="chkRestoration" text="Restoration / Infrastructure" />
                 </VBox>
 
                 <!-- Extra notes -->
                 <VBox spacing="5.0" HBox.hgrow="ALWAYS">
-                    <Label text="Additional Notes (optional):" style="-fx-font-weight: bold;"/>
-                    <TextArea fx:id="notesArea" prefHeight="120.0" wrapText="true" VBox.vgrow="ALWAYS"
-                              promptText="Enter any special instructions or notes for this response..."/>
+                    <Label style="-fx-font-weight: bold;" text="Additional Notes (optional):" />
+                    <TextArea fx:id="notesArea" prefHeight="120.0" promptText="Enter any special instructions or notes for this response..." wrapText="true" VBox.vgrow="ALWAYS" />
                 </VBox>
             </HBox>
 
             <!-- Save button and feedback -->
-            <HBox spacing="10.0" alignment="CENTER_LEFT">
-                <Button fx:id="saveResponseBtn" text="Save Response"
-                        onAction="#handleSaveResponse"
-                        style="-fx-background-color: #8e44ad; -fx-text-fill: white;
-                               -fx-font-weight: bold; -fx-padding: 8 20 8 20;"/>
-                <Label fx:id="statusLabel" text="" wrapText="true"
-                       style="-fx-font-size: 13px;"/>
+            <HBox alignment="CENTER_LEFT" spacing="10.0">
+                <Button fx:id="saveResponseBtn" onAction="#handleSaveResponse" style="-fx-background-color: #8e44ad; -fx-text-fill: white;                                -fx-font-weight: bold; -fx-padding: 8 20 8 20;" text="Save Response" />
+                <Label fx:id="statusLabel" style="-fx-font-size: 13px;" text="" wrapText="true" />
             </HBox>
 
-            <Separator/>
+            <Separator />
 
             <!-- Response summary table -->
-            <Label text="Saved Response Records:"
-                   style="-fx-font-size: 14px; -fx-font-weight: bold;"/>
+            <Label style="-fx-font-size: 14px; -fx-font-weight: bold;" text="Saved Response Records:" />
 
-            <TableView fx:id="responsesTable" VBox.vgrow="SOMETIMES">
+            <TableView fx:id="responsesTable" minHeight="165.0" prefHeight="244.0" prefWidth="960.0" VBox.vgrow="ALWAYS">
                 <columns>
-                    <TableColumn fx:id="respIdCol"         text="Resp. ID"    prefWidth="80.0"/>
-                    <TableColumn fx:id="respDisasterCol"   text="Disaster ID" prefWidth="100.0"/>
-                    <TableColumn fx:id="respDeptCountCol"  text="Departments" prefWidth="110.0"/>
-                    <TableColumn fx:id="respPersonCountCol" text="Responders" prefWidth="100.0"/>
-                    <TableColumn fx:id="respCreatedCol"    text="Created At"  prefWidth="150.0"/>
+                    <TableColumn fx:id="respIdCol" prefWidth="80.0" text="Resp. ID" />
+                    <TableColumn fx:id="respDisasterCol" prefWidth="100.0" text="Disaster ID" />
+                    <TableColumn fx:id="respDeptCountCol" prefWidth="110.0" text="Departments" />
+                    <TableColumn fx:id="respPersonCountCol" prefWidth="100.0" text="Responders" />
+                    <TableColumn fx:id="respCreatedCol" prefWidth="150.0" text="Created At" />
                 </columns>
                 <placeholder>
-                    <Label text="No responses saved yet."/>
+                    <Label text="No responses saved yet." />
                 </placeholder>
             </TableView>
 
-            <padding><Insets top="5.0" bottom="5.0" left="0.0" right="0.0"/></padding>
+            <padding><Insets bottom="5.0" left="0.0" right="0.0" top="5.0" /></padding>
         </VBox>
     </children>
 </AnchorPane>

@@ -1,10 +1,16 @@
 package drs.controller;
 
-import drs.model.*;
+import drs.model.DisasterReport;
+import drs.model.DisasterRepository;
+import drs.model.DisasterStatus;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 /**
@@ -15,37 +21,58 @@ import javafx.scene.control.cell.PropertyValueFactory;
  */
 public class AssessDisasterController {
 
-    // --- Main table showing all reports ---
-    @FXML private TableView<DisasterReport>              reportsTable;
-    @FXML private TableColumn<DisasterReport, Integer>   idCol;
-    @FXML private TableColumn<DisasterReport, String>    typeCol;
-    @FXML private TableColumn<DisasterReport, String>    severityCol;
-    @FXML private TableColumn<DisasterReport, String>    locationCol;
-    @FXML private TableColumn<DisasterReport, Integer>   priorityCol;
-    @FXML private TableColumn<DisasterReport, String>    statusCol;
-    @FXML private TableColumn<DisasterReport, String>    reporterCol;
-    @FXML private TableColumn<DisasterReport, String>    timestampCol;
-
-    // --- Detail panel for the selected report ---
-    @FXML private Label  detailIdLabel;
-    @FXML private Label  detailTypeLabel;
-    @FXML private Label  detailSeverityLabel;
-    @FXML private Label  detailLocationLabel;
-    @FXML private Label  detailReporterLabel;
-    @FXML private Label  detailDescLabel;
-    @FXML private TextField priorityOverrideField;
-
-    // --- Action buttons ---
-    @FXML private Button startAssessmentBtn;
-    @FXML private Button dispatchResponseBtn;
-    @FXML private Button markResolvedBtn;
-    @FXML private Button overridePriorityBtn;
-    @FXML private Label  statusLabel;
-
-    /** Observable list backing the reports table. */
+    /**
+     * Observable list backing the reports table.
+     */
     private final ObservableList<DisasterReport> tableData = FXCollections.observableArrayList();
-
-    /** The report currently selected in the table. */
+    // --- Main table showing all reports ---
+    @FXML
+    private TableView<DisasterReport> reportsTable;
+    @FXML
+    private TableColumn<DisasterReport, Integer> idCol;
+    @FXML
+    private TableColumn<DisasterReport, String> typeCol;
+    @FXML
+    private TableColumn<DisasterReport, String> severityCol;
+    @FXML
+    private TableColumn<DisasterReport, String> locationCol;
+    @FXML
+    private TableColumn<DisasterReport, Integer> priorityCol;
+    @FXML
+    private TableColumn<DisasterReport, String> statusCol;
+    @FXML
+    private TableColumn<DisasterReport, String> reporterCol;
+    @FXML
+    private TableColumn<DisasterReport, String> timestampCol;
+    // --- Detail panel for the selected report ---
+    @FXML
+    private Label detailIdLabel;
+    @FXML
+    private Label detailTypeLabel;
+    @FXML
+    private Label detailSeverityLabel;
+    @FXML
+    private Label detailLocationLabel;
+    @FXML
+    private Label detailReporterLabel;
+    @FXML
+    private Label detailDescLabel;
+    @FXML
+    private TextField priorityOverrideField;
+    // --- Action buttons ---
+    @FXML
+    private Button startAssessmentBtn;
+    @FXML
+    private Button dispatchResponseBtn;
+    @FXML
+    private Button markResolvedBtn;
+    @FXML
+    private Button overridePriorityBtn;
+    @FXML
+    private Label statusLabel;
+    /**
+     * The report currently selected in the table.
+     */
     private DisasterReport selectedReport;
 
     /**
@@ -55,20 +82,20 @@ public class AssessDisasterController {
     @FXML
     public void initialize() {
         // Wire columns to model getters
-        idCol.setCellValueFactory(new PropertyValueFactory<>("id"));
-        typeCol.setCellValueFactory(new PropertyValueFactory<>("type"));
-        severityCol.setCellValueFactory(new PropertyValueFactory<>("severity"));
-        locationCol.setCellValueFactory(new PropertyValueFactory<>("location"));
-        priorityCol.setCellValueFactory(new PropertyValueFactory<>("priority"));
-        statusCol.setCellValueFactory(new PropertyValueFactory<>("status"));
-        reporterCol.setCellValueFactory(new PropertyValueFactory<>("reporterName"));
-        timestampCol.setCellValueFactory(new PropertyValueFactory<>("timestamp"));
+        idCol.setCellValueFactory( new PropertyValueFactory<>( "id" ) );
+        typeCol.setCellValueFactory( new PropertyValueFactory<>( "type" ) );
+        severityCol.setCellValueFactory( new PropertyValueFactory<>( "severity" ) );
+        locationCol.setCellValueFactory( new PropertyValueFactory<>( "location" ) );
+        priorityCol.setCellValueFactory( new PropertyValueFactory<>( "priority" ) );
+        statusCol.setCellValueFactory( new PropertyValueFactory<>( "status" ) );
+        reporterCol.setCellValueFactory( new PropertyValueFactory<>( "reporterName" ) );
+        timestampCol.setCellValueFactory( new PropertyValueFactory<>( "timestamp" ) );
 
-        reportsTable.setItems(tableData);
+        reportsTable.setItems( tableData );
 
         // Update detail panel and enable buttons when a row is selected
         reportsTable.getSelectionModel().selectedItemProperty().addListener(
-                (obs, oldVal, newVal) -> onReportSelected(newVal));
+                ( obs, oldVal, newVal ) -> onReportSelected( newVal ) );
 
         disableActionButtons();
         loadReports();
@@ -88,9 +115,10 @@ public class AssessDisasterController {
      */
     @FXML
     private void handleStartAssessment() {
-        if (selectedReport == null) return;
-        DisasterRepository.updateReportStatus(selectedReport.getId(), DisasterStatus.ASSESSING);
-        showSuccess("Report #" + selectedReport.getId() + " is now being assessed.");
+        if ( selectedReport == null )
+            return;
+        DisasterRepository.updateReportStatus( selectedReport.getId(), DisasterStatus.ASSESSING );
+        showSuccess( "Report #" + selectedReport.getId() + " is now being assessed." );
         loadReports();
     }
 
@@ -100,9 +128,10 @@ public class AssessDisasterController {
      */
     @FXML
     private void handleDispatchResponse() {
-        if (selectedReport == null) return;
-        DisasterRepository.updateReportStatus(selectedReport.getId(), DisasterStatus.RESPONDING);
-        showSuccess("Response dispatched for Report #" + selectedReport.getId() + ".");
+        if ( selectedReport == null )
+            return;
+        DisasterRepository.updateReportStatus( selectedReport.getId(), DisasterStatus.RESPONDING );
+        showSuccess( "Response dispatched for Report #" + selectedReport.getId() + "." );
         loadReports();
     }
 
@@ -112,9 +141,10 @@ public class AssessDisasterController {
      */
     @FXML
     private void handleMarkResolved() {
-        if (selectedReport == null) return;
-        DisasterRepository.updateReportStatus(selectedReport.getId(), DisasterStatus.RESOLVED);
-        showSuccess("Report #" + selectedReport.getId() + " marked as resolved.");
+        if ( selectedReport == null )
+            return;
+        DisasterRepository.updateReportStatus( selectedReport.getId(), DisasterStatus.RESOLVED );
+        showSuccess( "Report #" + selectedReport.getId() + " marked as resolved." );
         loadReports();
     }
 
@@ -124,25 +154,26 @@ public class AssessDisasterController {
      */
     @FXML
     private void handleOverridePriority() {
-        if (selectedReport == null) return;
+        if ( selectedReport == null )
+            return;
 
         String input = priorityOverrideField.getText().trim();
-        if (input.isEmpty()) {
-            showError("Enter a priority value first.");
+        if ( input.isEmpty() ) {
+            showError( "Enter a priority value first." );
             return;
         }
 
         try {
-            int newPriority = Integer.parseInt(input);
-            if (newPriority < 1 || newPriority > 100) {
-                showError("Priority must be between 1 and 100.");
+            int newPriority = Integer.parseInt( input );
+            if ( newPriority < 1 || newPriority > 100 ) {
+                showError( "Priority must be between 1 and 100." );
                 return;
             }
-            DisasterRepository.updateReportPriority(selectedReport.getId(), newPriority);
-            showSuccess("Priority updated to " + newPriority + " for Report #" + selectedReport.getId());
+            DisasterRepository.updateReportPriority( selectedReport.getId(), newPriority );
+            showSuccess( "Priority updated to " + newPriority + " for Report #" + selectedReport.getId() );
             loadReports();
-        } catch (NumberFormatException e) {
-            showError("Priority must be a whole number.");
+        } catch ( NumberFormatException e ) {
+            showError( "Priority must be a whole number." );
         }
     }
 
@@ -152,76 +183,86 @@ public class AssessDisasterController {
      *
      * @param report the selected disaster report, or null if selection is cleared
      */
-    private void onReportSelected(DisasterReport report) {
+    private void onReportSelected( DisasterReport report ) {
         selectedReport = report;
-        if (report == null) {
+        if ( report == null ) {
             disableActionButtons();
             clearDetails();
             return;
         }
 
         // Populate the detail labels
-        detailIdLabel.setText(String.valueOf(report.getId()));
-        detailTypeLabel.setText(report.getType().toString());
-        detailSeverityLabel.setText(report.getSeverity().toString());
-        detailLocationLabel.setText(report.getLocation());
-        detailReporterLabel.setText(report.getReporterName() + " — " + report.getReporterPhone());
-        detailDescLabel.setText(report.getDescription());
-        priorityOverrideField.setText(String.valueOf(report.getPriority()));
+        detailIdLabel.setText( String.valueOf( report.getId() ) );
+        detailTypeLabel.setText( report.getType().toString() );
+        detailSeverityLabel.setText( report.getSeverity().toString() );
+        detailLocationLabel.setText( report.getLocation() );
+        detailReporterLabel.setText( report.getReporterName() + " — " + report.getReporterPhone() );
+        detailDescLabel.setText( report.getDescription() );
+        priorityOverrideField.setText( String.valueOf( report.getPriority() ) );
 
         // Enable/disable buttons based on current status
         DisasterStatus s = report.getStatus();
-        startAssessmentBtn.setDisable(s != DisasterStatus.REPORTED);
-        dispatchResponseBtn.setDisable(s != DisasterStatus.ASSESSING);
-        markResolvedBtn.setDisable(s == DisasterStatus.RESOLVED);
-        overridePriorityBtn.setDisable(false);
-        statusLabel.setText("");
+        startAssessmentBtn.setDisable( s != DisasterStatus.REPORTED );
+        dispatchResponseBtn.setDisable( s != DisasterStatus.ASSESSING );
+        markResolvedBtn.setDisable( s == DisasterStatus.RESOLVED );
+        overridePriorityBtn.setDisable( false );
+        statusLabel.setText( "" );
     }
 
-    /** Reloads report data from the repository into the table. */
+    /**
+     * Reloads report data from the repository into the table.
+     */
     private void loadReports() {
-        tableData.setAll(DisasterRepository.getAllReports());
+        tableData.setAll( DisasterRepository.getAllReports() );
 
         // Re-select the same report if it still exists
-        if (selectedReport != null) {
-            for (DisasterReport r : tableData) {
-                if (r.getId() == selectedReport.getId()) {
-                    reportsTable.getSelectionModel().select(r);
+        if ( selectedReport != null ) {
+            for ( DisasterReport r : tableData ) {
+                if ( r.getId() == selectedReport.getId() ) {
+                    reportsTable.getSelectionModel().select( r );
                     break;
                 }
             }
         }
     }
 
-    /** Disables all status-change action buttons. */
+    /**
+     * Disables all status-change action buttons.
+     */
     private void disableActionButtons() {
-        startAssessmentBtn.setDisable(true);
-        dispatchResponseBtn.setDisable(true);
-        markResolvedBtn.setDisable(true);
-        overridePriorityBtn.setDisable(true);
+        startAssessmentBtn.setDisable( true );
+        dispatchResponseBtn.setDisable( true );
+        markResolvedBtn.setDisable( true );
+        overridePriorityBtn.setDisable( true );
     }
 
-    /** Clears all detail-panel labels. */
+    /**
+     * Clears all detail-panel labels.
+     */
     private void clearDetails() {
-        detailIdLabel.setText("-");
-        detailTypeLabel.setText("-");
-        detailSeverityLabel.setText("-");
-        detailLocationLabel.setText("-");
-        detailReporterLabel.setText("-");
-        detailDescLabel.setText("-");
+        detailIdLabel.setText( "-" );
+        detailTypeLabel.setText( "-" );
+        detailSeverityLabel.setText( "-" );
+        detailLocationLabel.setText( "-" );
+        detailReporterLabel.setText( "-" );
+        detailDescLabel.setText( "-" );
         priorityOverrideField.clear();
-        statusLabel.setText("");
+        statusLabel.setText( "" );
     }
 
-    /** Displays a success message in green on the status label. */
-    private void showSuccess(String message) {
-        statusLabel.setStyle("-fx-text-fill: green;");
-        statusLabel.setText(message);
+    /**
+     * Displays a success message in green on the status label.
+     */
+    private void showSuccess( String message ) {
+        statusLabel.setStyle( "-fx-text-fill: green;" );
+        statusLabel.setText( message );
     }
 
-    /** Displays an error message in red on the status label. */
-    private void showError(String message) {
-        statusLabel.setStyle("-fx-text-fill: red;");
-        statusLabel.setText(message);
+    /**
+     * Displays an error message in red on the status label.
+     */
+    private void showError( String message ) {
+        statusLabel.setStyle( "-fx-text-fill: red;" );
+        statusLabel.setText( message );
     }
 }

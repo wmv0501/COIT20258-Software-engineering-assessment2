@@ -1,7 +1,6 @@
 package drs.controller;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 
 /**
@@ -14,14 +13,20 @@ import javafx.scene.control.TabPane;
  */
 public class MainController {
 
-    @FXML private TabPane mainTabPane;
+    @FXML
+    private TabPane mainTabPane;
 
     // Injected sub-controllers — names match fx:id + "Controller"
-    @FXML private ReportDisasterController  reportDisasterController;
-    @FXML private AssessDisasterController  assessDisasterController;
-    @FXML private CoordinationController    coordinationController;
-    @FXML private HistoryController         historyController;
-    @FXML private ResourceController        resourceController;
+    @FXML
+    private ReportDisasterController reportDisasterController;
+    @FXML
+    private AssessDisasterController assessDisasterController;
+    @FXML
+    private CoordinationController coordinationController;
+    @FXML
+    private HistoryController historyController;
+    @FXML
+    private ResourceController resourceController;
 
     /**
      * Sets up a tab-change listener that calls refresh() on the newly active tab's
@@ -31,11 +36,12 @@ public class MainController {
     @FXML
     public void initialize() {
         mainTabPane.getSelectionModel().selectedItemProperty().addListener(
-                (obs, oldTab, newTab) -> {
-                    if (newTab == null) return;
-                    int index = mainTabPane.getTabs().indexOf(newTab);
-                    refreshTab(index);
-                });
+                ( obs, oldTab, newTab ) -> {
+                    if ( newTab == null )
+                        return;
+                    int index = mainTabPane.getTabs().indexOf( newTab );
+                    refreshTab( index );
+                } );
     }
 
     /**
@@ -43,16 +49,16 @@ public class MainController {
      * based on the tab index.
      *
      * Tab order (matches main.fxml):
-     *   0 — Report Disaster
-     *   1 — Assess and Prioritise
-     *   2 — Coordinate Response
-     *   3 — History Log
-     *   4 — Resources
+     * 0 — Report Disaster
+     * 1 — Assess and Prioritise
+     * 2 — Coordinate Response
+     * 3 — History Log
+     * 4 — Resources
      *
      * @param index the zero-based index of the tab that just became active
      */
-    private void refreshTab(int index) {
-        switch (index) {
+    private void refreshTab( int index ) {
+        switch ( index ) {
             case 0 -> reportDisasterController.loadRecentReports();
             case 1 -> assessDisasterController.refresh();
             case 2 -> coordinationController.refresh();

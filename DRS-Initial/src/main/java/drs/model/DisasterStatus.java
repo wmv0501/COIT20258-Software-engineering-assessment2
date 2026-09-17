@@ -6,10 +6,10 @@ package drs.model;
  */
 public enum DisasterStatus {
 
-    REPORTED("Reported"),
-    ASSESSING("Assessing"),
-    RESPONDING("Responding"),
-    RESOLVED("Resolved");
+    REPORTED( "Reported" ),
+    ASSESSING( "Assessing" ),
+    RESPONDING( "Responding" ),
+    RESOLVED( "Resolved" );
 
     // Human-readable label shown in the UI
     private final String label;
@@ -19,7 +19,7 @@ public enum DisasterStatus {
      *
      * @param label the UI-friendly name
      */
-    DisasterStatus(String label) {
+    DisasterStatus( String label ) {
         this.label = label;
     }
 

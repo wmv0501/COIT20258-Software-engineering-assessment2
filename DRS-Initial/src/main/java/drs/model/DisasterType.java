@@ -6,11 +6,11 @@ package drs.model;
  */
 public enum DisasterType {
 
-    HURRICANE("Hurricane"),
-    EARTHQUAKE("Earthquake"),
-    FIRE("Fire"),
-    FLOOD("Flood"),
-    OTHER("Other");
+    HURRICANE( "Hurricane" ),
+    EARTHQUAKE( "Earthquake" ),
+    FIRE( "Fire" ),
+    FLOOD( "Flood" ),
+    OTHER( "Other" );
 
     // Human-readable label shown in the UI
     private final String label;
@@ -20,7 +20,7 @@ public enum DisasterType {
      *
      * @param label the UI-friendly name
      */
-    DisasterType(String label) {
+    DisasterType( String label ) {
         this.label = label;
     }
 

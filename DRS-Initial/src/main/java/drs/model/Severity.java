@@ -6,10 +6,10 @@ package drs.model;
  */
 public enum Severity {
 
-    LOW("Low", 10),
-    MEDIUM("Medium", 20),
-    HIGH("High", 30),
-    CRITICAL("Critical", 40);
+    LOW( "Low", 10 ),
+    MEDIUM( "Medium", 20 ),
+    HIGH( "High", 30 ),
+    CRITICAL( "Critical", 40 );
 
     // Human-readable label shown in the UI
     private final String label;
@@ -20,10 +20,10 @@ public enum Severity {
     /**
      * Constructs a Severity level with a label and priority weight.
      *
-     * @param label          the UI-friendly name
+     * @param label the UI-friendly name
      * @param priorityWeight points added to the priority score
      */
-    Severity(String label, int priorityWeight) {
+    Severity( String label, int priorityWeight ) {
         this.label = label;
         this.priorityWeight = priorityWeight;
     }
