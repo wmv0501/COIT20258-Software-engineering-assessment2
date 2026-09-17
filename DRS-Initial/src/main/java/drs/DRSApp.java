@@ -29,7 +29,7 @@ public class DRSApp extends Application {
     /**
      * Preferred window height in pixels.
      */
-    private static final double WINDOW_HEIGHT = 720.0;
+    private static final double WINDOW_HEIGHT = 950.0;
 
     /**
      * Application entry point.
