@@ -1,5 +1,6 @@
 package drs.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -21,8 +22,10 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.ListCell;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.util.StringConverter;
 
 /**
  * Controller for the "Coordinate Response" tab.
@@ -93,6 +96,9 @@ public class CoordinationController {
         departmentListView.getSelectionModel().setSelectionMode( SelectionMode.MULTIPLE );
         responderListView.getSelectionModel().setSelectionMode( SelectionMode.MULTIPLE );
 
+        // Display readable labels instead of the raw toString() of each model object
+        configureDisplayFormatting();
+
         // When department selection changes, filter responders to only those departments
         departmentListView.getSelectionModel().getSelectedItems().addListener(
                 (ListChangeListener<Department>) change -> updateResponderList() );
@@ -122,6 +128,77 @@ public class CoordinationController {
     }
 
     /**
+     * Configures how model objects are rendered in the ComboBox and the two
+     * ListViews. Without this, JavaFX falls back to each object's toString(),
+     * which is written for logging and is not suitable for the user interface.
+     */
+    private void configureDisplayFormatting() {
+        // Disaster ComboBox — show a concise incident summary
+        disasterComboBox.setConverter( new StringConverter<DisasterReport>() {
+            @Override
+            public String toString( DisasterReport report ) {
+                return report == null ? "" : formatDisaster( report );
+            }
+
+            @Override
+            public DisasterReport fromString( String text ) {
+                return null;    // the ComboBox is not editable
+            }
+        } );
+
+        // Department list — show name and category
+        departmentListView.setCellFactory( list -> new ListCell<Department>() {
+            @Override
+            protected void updateItem( Department department, boolean empty ) {
+                super.updateItem( department, empty );
+                setText( empty || department == null ? null : formatDepartment( department ) );
+            }
+        } );
+
+        // Responder list — show name, role and parent department
+        responderListView.setCellFactory( list -> new ListCell<Responder>() {
+            @Override
+            protected void updateItem( Responder responder, boolean empty ) {
+                super.updateItem( responder, empty );
+                setText( empty || responder == null ? null : formatResponder( responder ) );
+            }
+        } );
+    }
+
+    /**
+     * Formats a disaster report for display in the selection ComboBox.
+     *
+     * @param report the report to format
+     * @return a concise single-line summary
+     */
+    private String formatDisaster( DisasterReport report ) {
+        return String.format( "#%d  %s (%s) — %s  [priority %d]",
+                report.getId(), report.getType(), report.getSeverity(),
+                report.getLocation(), report.getPriority() );
+    }
+
+    /**
+     * Formats a department for display in the department ListView.
+     *
+     * @param department the department to format
+     * @return a readable single-line label
+     */
+    private String formatDepartment( Department department ) {
+        return String.format( "%s  (%s)", department.getName(), department.getType() );
+    }
+
+    /**
+     * Formats a responder for display in the responder ListView.
+     *
+     * @param responder the responder to format
+     * @return a readable single-line label
+     */
+    private String formatResponder( Responder responder ) {
+        return String.format( "%s — %s, %s",
+                responder.getName(), responder.getRole(), responder.getDepartmentName() );
+    }
+
+    /**
      * Handles the "Save Response" button.
      * Validates selection, creates a DisasterResponse, marks assigned
      * departments and responders as deployed, and saves everything.
@@ -134,8 +211,11 @@ public class CoordinationController {
             return;
         }
 
-        List<Department> chosenDepts = departmentListView.getSelectionModel().getSelectedItems();
-        List<Responder> chosenResps = responderListView.getSelectionModel().getSelectedItems();
+        // Copy the live selection lists — they are cleared when the views reload
+        List<Department> chosenDepts =
+                new ArrayList<>( departmentListView.getSelectionModel().getSelectedItems() );
+        List<Responder> chosenResps =
+                new ArrayList<>( responderListView.getSelectionModel().getSelectedItems() );
 
         if ( chosenDepts.isEmpty() && chosenResps.isEmpty() ) {
             showError( "Select at least one department or responder." );
@@ -147,14 +227,16 @@ public class CoordinationController {
                 0, selected, chosenDepts, chosenResps, buildNotes() );
         DisasterRepository.addResponse( response );
 
-        // Mark assigned departments as deployed
+        // Mark assigned departments as deployed.
+        // markDepartmentDeployed is used rather than a toggle so that assigning
+        // the same department to a second incident cannot flip it back to Available.
         for ( Department d : chosenDepts ) {
-            DisasterRepository.toggleDepartmentAvailability( d.getId() );
+            DisasterRepository.markDepartmentDeployed( d.getId() );
         }
 
         // Mark assigned responders as deployed
         for ( Responder r : chosenResps ) {
-            DisasterRepository.toggleResponderAvailability( r.getId() );
+            DisasterRepository.markResponderDeployed( r.getId() );
         }
 
         // Update disaster status to RESPONDING if not already

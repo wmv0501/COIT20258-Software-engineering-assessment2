@@ -1,5 +1,6 @@
 package drs.controller;
 
+import java.util.List;
 import java.util.stream.Collectors;
 
 import drs.model.Department;
@@ -237,8 +238,12 @@ public class HistoryController {
         descriptionLabel.setText( report.getDescription() );
 
         // --- Response fields ---
-        DisasterResponse response = DisasterRepository.getResponseForReport( report.getId() );
-        if ( response == null ) {
+        // A disaster may be responded to more than once as extra departments are
+        // brought in, so every saved response for this report is shown.
+        List<DisasterResponse> responses =
+                DisasterRepository.getResponsesForReport( report.getId() );
+
+        if ( responses.isEmpty() ) {
             setVisible( detailRespNoResponse, true );
             hideResponseFields();
             return;
@@ -246,22 +251,40 @@ public class HistoryController {
 
         setVisible( detailRespNoResponse, false );
 
-        String depts = response.getAssignedDepartments().stream()
+        // Departments across all responses, without repeating a department
+        String depts = responses.stream()
+                               .flatMap( resp -> resp.getAssignedDepartments().stream() )
                                .map( Department::getName )
+                               .distinct()
                                .collect( Collectors.joining( "\n" ) );
         detailDepartments.setText( depts.isEmpty() ? "None" : depts );
         setVisible( detailDeptHeading, true );
         setVisible( detailDepartments, true );
 
-        String resps = response.getAssignedResponders().stream()
+        // Responders across all responses, without repeating a person
+        String resps = responses.stream()
+                               .flatMap( resp -> resp.getAssignedResponders().stream() )
                                .map( r -> r.getName() + " (" + r.getRole() + ")" )
+                               .distinct()
                                .collect( Collectors.joining( "\n" ) );
         detailResponders.setText( resps.isEmpty() ? "None" : resps );
         setVisible( detailRespPersonHeading, true );
         setVisible( detailResponders, true );
 
-        String notes = response.getNotes();
-        detailRespNotes.setText( notes.isEmpty() ? "None" : notes );
+        // Notes, labelled per response so multiple dispatches stay distinguishable
+        StringBuilder notesBuilder = new StringBuilder();
+        for ( DisasterResponse resp : responses ) {
+            if ( notesBuilder.length() > 0 )
+                notesBuilder.append( "\n" );
+            if ( responses.size() > 1 ) {
+                notesBuilder.append( "Response #" ).append( resp.getId() )
+                        .append( " (" ).append( resp.getCreatedAt() ).append( "):\n" );
+            }
+            String respNotes = resp.getNotes();
+            notesBuilder.append( respNotes == null || respNotes.isEmpty() ? "None" : respNotes )
+                    .append( "\n" );
+        }
+        detailRespNotes.setText( notesBuilder.toString().trim() );
         setVisible( detailNotesHeading, true );
         setVisible( detailRespNotes, true );
     }

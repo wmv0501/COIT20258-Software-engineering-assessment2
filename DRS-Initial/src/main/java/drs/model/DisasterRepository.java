@@ -151,21 +151,42 @@ public class DisasterRepository {
     }
 
     /**
-     * Returns departments that have at least one available responder.
-     * Used by the coordination screen so a department remains selectable
-     * as long as any of its personnel can still be assigned.
+     * Returns departments that can still be assigned to a new response:
+     * the department must itself be available (not already deployed) and
+     * must have at least one available responder to send.
      *
-     * @return list of departments with at least one available responder
+     * Used by the coordination screen to populate the selectable department list.
+     *
+     * @return list of assignable departments
      */
     public static List<Department> getDepartmentsWithAvailableResponders() {
         return departments.stream()
+                       .filter( Department::isAvailable )
                        .filter( d -> responders.stream()
                                              .anyMatch( r -> r.getDepartment() == d && r.isAvailable() ) )
                        .collect( Collectors.toList() );
     }
 
     /**
+     * Marks a department as deployed (unavailable).
+     * Used when a department is assigned to a disaster response. Unlike
+     * toggleDepartmentAvailability, this always sets the department to
+     * Deployed, so assigning the same department to a second incident
+     * cannot accidentally flip it back to Available.
+     *
+     * @param departmentId the ID of the department to deploy
+     */
+    public static void markDepartmentDeployed( int departmentId ) {
+        departments.stream()
+                .filter( d -> d.getId() == departmentId )
+                .findFirst()
+                .ifPresent( d -> d.setAvailable( false ) );
+    }
+
+    /**
      * Toggles the availability of a department between Available and Deployed.
+     * Used by the Resource Management screen, where a manual toggle is the
+     * intended behaviour.
      *
      * @param departmentId the ID of the department to toggle
      */
@@ -201,7 +222,23 @@ public class DisasterRepository {
     }
 
     /**
+     * Marks a responder as deployed (unavailable).
+     * Used when a responder is assigned to a disaster response, so that
+     * repeated assignment can never flip the responder back to Available.
+     *
+     * @param responderId the ID of the responder to deploy
+     */
+    public static void markResponderDeployed( int responderId ) {
+        responders.stream()
+                .filter( r -> r.getId() == responderId )
+                .findFirst()
+                .ifPresent( r -> r.setAvailable( false ) );
+    }
+
+    /**
      * Toggles the availability of a responder between Available and Deployed.
+     * Used by the Resource Management screen, where a manual toggle is the
+     * intended behaviour.
      *
      * @param responderId the ID of the responder to toggle
      */
@@ -237,6 +274,20 @@ public class DisasterRepository {
                        .filter( r -> r.getDisasterId() == reportId )
                        .findFirst()
                        .orElse( null );
+    }
+
+    /**
+     * Returns every response record created for a specific disaster report,
+     * in the order they were saved. A single disaster may be responded to
+     * more than once as additional departments are brought in.
+     *
+     * @param reportId the ID of the disaster report
+     * @return list of matching responses (empty if none exist)
+     */
+    public static List<DisasterResponse> getResponsesForReport( int reportId ) {
+        return responses.stream()
+                       .filter( r -> r.getDisasterId() == reportId )
+                       .collect( Collectors.toList() );
     }
 
     /**

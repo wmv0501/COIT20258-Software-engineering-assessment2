@@ -52,10 +52,10 @@
                     <TableView fx:id="deptTable" VBox.vgrow="ALWAYS">
                         <columns>
                             <TableColumn fx:id="deptIdCol"      text="ID"      prefWidth="40.0"/>
-                            <TableColumn fx:id="deptNameCol"    text="Name"    prefWidth="160.0"/>
-                            <TableColumn fx:id="deptTypeCol"    text="Type"    prefWidth="120.0"/>
-                            <TableColumn fx:id="deptContactCol" text="Contact" prefWidth="140.0"/>
-                            <TableColumn fx:id="deptPhoneCol"   text="Phone"   prefWidth="110.0"/>
+                            <TableColumn fx:id="deptNameCol"    text="Name"    prefWidth="150.0"/>
+                            <TableColumn fx:id="deptTypeCol"    text="Type"    prefWidth="105.0"/>
+                            <TableColumn fx:id="deptContactCol" text="Contact" prefWidth="120.0"/>
+                            <TableColumn fx:id="deptPhoneCol"   text="Phone"   prefWidth="95.0"/>
                             <TableColumn fx:id="deptStatusCol"  text="Status"  prefWidth="90.0"/>
                         </columns>
                         <placeholder>

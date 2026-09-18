@@ -80,6 +80,7 @@ public class ResourceController {
     @FXML
     public void initialize() {
         // Configure department table columns
+        deptTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY_ALL_COLUMNS);
         deptIdCol.setCellValueFactory( new PropertyValueFactory<>( "id" ) );
         deptNameCol.setCellValueFactory( new PropertyValueFactory<>( "name" ) );
         deptTypeCol.setCellValueFactory( new PropertyValueFactory<>( "type" ) );
@@ -90,6 +91,7 @@ public class ResourceController {
         deptTable.setItems( deptData );
 
         // Configure responder table columns
+        respTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY_ALL_COLUMNS);
         respIdCol.setCellValueFactory( new PropertyValueFactory<>( "id" ) );
         respNameCol.setCellValueFactory( new PropertyValueFactory<>( "name" ) );
         respRoleCol.setCellValueFactory( new PropertyValueFactory<>( "role" ) );
